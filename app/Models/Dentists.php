@@ -13,4 +13,9 @@ class Dentists extends Model
     {
         return $this->hasOne(User::class);
     }
+
+    public function treatments()
+    {
+        return $this->hasMany(Treatment::class);
+    }
 }

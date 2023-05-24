@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('patient__treatments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('patient_id')->unique();
+            $table->foreign('patient_id')->references('id')->on('patients');
+            $table->unsignedInteger('treatment_id')->unique();
+            $table->foreign('treatment_id')->references('id')->on('treatments');
             $table->timestamps();
         });
     }

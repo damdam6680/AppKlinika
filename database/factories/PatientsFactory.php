@@ -25,7 +25,6 @@ class PatientsFactory extends Factory
             'pesel' => fake()->numerify('###########'),
             'address' => fake()->address,
             'phone' => fake()->phoneNumber,
-            'email' => fake()->email,
             'user_id' => User::where('role', 'is_User')->inRandomOrder()->value('id'),
         ];
     }

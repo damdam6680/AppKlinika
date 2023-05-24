@@ -11,14 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('treatments', function (Blueprint $table) {
+        Schema::create('dentists', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('appointments_id')->unique();
-            $table->foreign('appointments_id')->references('id')->on('appointments');
-            $table->string('treatment_name', 50);
-            $table->text('description');
-            $table->decimal('price', 8, 2);
+            $table->unsignedInteger('user_id');//->unique();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('first_name', 50);
+            $table->string('last_name', 50);
+            $table->string('specialization', 50);
+            $table->string('phone_number', 20);
             $table->timestamps();
+
+
         });
     }
 
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('treatments');
+        Schema::dropIfExists('dentists');
     }
 };

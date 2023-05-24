@@ -1,7 +1,7 @@
 <?php
 
 namespace Database\Factories;
-
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,7 +22,7 @@ class DentistsFactory extends Factory
             'last_name' =>fake()->lastName,
             'specialization' =>fake()->randomElement($specializations),
             'phone_number' =>fake()->phoneNumber,
-            'email' =>fake()->email,
+            'user_id' => User::where('role', 'is_Dentists')->inRandomOrder()->value('id'),
         ];
     }
 }

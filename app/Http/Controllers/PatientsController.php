@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Patients;
 use App\Http\Requests\StorePatientsRequest;
 use App\Http\Requests\UpdatePatientsRequest;
+
 use App\Http\Requests\PatientsResource;
 use App\Http\Resources\PatientsResource as ResourcesPatientsResource;
 
@@ -31,7 +32,7 @@ class PatientsController extends Controller
      */
     public function store(StorePatientsRequest $request)
     {
-        //
+        return new ResourcesPatientsResource(Patients::create($request -> all()));
     }
 
     /**
@@ -39,11 +40,7 @@ class PatientsController extends Controller
      */
     public function show($id)
     {
-        $patient = Patients::find($id);
-
-        if (!$patient) {
-            return response()->json(['message' => 'Pacjent nie został znaleziony'], 404);
-        }
+        $patient = Patients::findOrFail($id);
 
         return response()->json($patient);
     }

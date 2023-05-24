@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Validation\Rule;
 class StorePatientsRequest extends FormRequest
 {
     /**
@@ -11,7 +11,7 @@ class StorePatientsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,18 @@ class StorePatientsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_id' => ['required'],
+            'first_name' => ['required'],
+            'last_name' => ['required'],
+            'pesel' => ['required'],
+            'address' => ['required'],
+            'phone' => ['required'],
         ];
+    }
+    protected function prepareForValidation()
+    {
+        $this-> merge([
+            'postal_code' => $this->postalCode
+        ]);
     }
 }
