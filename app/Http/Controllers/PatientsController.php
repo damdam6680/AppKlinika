@@ -37,9 +37,15 @@ class PatientsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Patients $patients)
+    public function show($id)
     {
-        return $patients;
+        $patient = Patients::find($id);
+
+        if (!$patient) {
+            return response()->json(['message' => 'Pacjent nie został znaleziony'], 404);
+        }
+
+        return response()->json($patient);
     }
 
     /**
