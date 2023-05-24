@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Validation\Rule;
 class UpdatePatientsRequest extends FormRequest
 {
     /**
@@ -11,7 +11,7 @@ class UpdatePatientsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,32 @@ class UpdatePatientsRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+        if($method == "PUT"){
+            return [
+                'user_id' => ['required'],
+                'first_name' => ['required'],
+                'last_name' => ['required'],
+                'pesel' => ['required'],
+                'address' => ['required'],
+                'phone' => ['required'],
+            ];
+        }else{
+            return [
+                'user_id' => ['sometimes','required'],
+                'first_name' => ['sometimes','required'],
+                'last_name' => ['sometimes','required'],
+                'pesel' => ['sometimes','required'],
+                'address' => ['sometimes','required'],
+                'phone' => ['sometimes','required'],
+            ];
+        }
+
+    }
+    protected function prepareForValidation()
+    {
+        $this-> merge([
+            'postal_code' => $this->postalCode
+        ]);
     }
 }

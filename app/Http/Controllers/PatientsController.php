@@ -56,9 +56,14 @@ class PatientsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePatientsRequest $request, Patients $patients)
+    public function update(UpdatePatientsRequest $request,$id)
     {
-        //
+        $patients = Patients::findOrFail($id);
+        $patients -> update($request->all());
+
+        $patients->save();
+
+        return response()->json($patients);
     }
 
     /**
