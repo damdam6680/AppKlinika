@@ -5,6 +5,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Patients;
 use App\Http\Controllers\DentistsController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\User;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,8 +31,11 @@ Route::group(['middleware' => ['user'],], function () {
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::apiResource('patients', PatientsController::class);
     Route::apiResource('dentists', DentistsController::class);
+    Route::apiResource('user',UserController::class);
 });
 
 Route::any('admin/access/denied', function () {
     return response()->json(['error' => 'Access denied for admin'], 403);
 })->name('admin.access.denied');
+Route::post('/auth/register', [AuthController::class, 'createUser']);
+Route::post('/auth/login', [AuthController::class, 'loginUser']);

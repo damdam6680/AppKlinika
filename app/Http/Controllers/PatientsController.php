@@ -16,7 +16,7 @@ class PatientsController extends Controller
      */
     public function index()
     {
-        return Patients::all();
+        return  Patients::paginate(1);
     }
 
     /**
@@ -69,8 +69,14 @@ class PatientsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Patients $patients)
+    public function destroy( $id)
     {
-        //
+        $patients = Patients::findOrFail($id);
+        $patients->delete();
+        return response()->json($patients);
+
     }
 }
+
+
+

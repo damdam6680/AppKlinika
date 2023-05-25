@@ -17,8 +17,6 @@ class UserMiddleware
     {
         // Sprawdzenie, czy użytkownik jest zalogowany
         if (auth()->check()) {
-            // Dodaj tutaj logikę dla zalogowanego użytkownika
-            // np. sprawdzanie uprawnień, weryfikacja danych, etc.
 
             // Sprawdzenie, czy użytkownik ma rolę administratora (id_role = 1)
             if (auth()->user()->is_admin) {

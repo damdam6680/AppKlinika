@@ -13,7 +13,7 @@ class DentistsController extends Controller
      */
     public function index()
     {
-        return Dentists::all();
+        return  Dentists::paginate(1);
     }
 
     /**
@@ -27,17 +27,19 @@ class DentistsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreDentistsRequest $request)
+    public function store($id)
     {
-        //
+        return new ResourcesPatientsResource(Dentists::create($request -> all()));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Dentists $dentists)
+    public function show($id)
     {
-        return $dentists;
+        $dentists = Patients::findOrFail($id);
+
+        return response()->json($dentists);
     }
 
     /**
@@ -51,16 +53,23 @@ class DentistsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDentistsRequest $request, Dentists $dentists)
+    public function update(UpdateDentistsRequest $request, $id)
     {
-        //
+        $dentists = Dentists::findOrFail($id);
+        $dentists -> update($request->all());
+
+        $dentists->save();
+
+        return response()->json($dentists);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Dentists $dentists)
+    public function destroy($id)
     {
-        //
+        $dentists = Dentists::findOrFail($id);
+        $dentists->delete();
+        return response()->json($dentists);
     }
 }
