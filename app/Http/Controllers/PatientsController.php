@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Patients;
 use App\Http\Requests\StorePatientsRequest;
 use App\Http\Requests\UpdatePatientsRequest;
+use App\Models\User;
 
 use App\Http\Requests\PatientsResource;
 use App\Http\Resources\PatientsResource as ResourcesPatientsResource;
@@ -16,8 +17,10 @@ class PatientsController extends Controller
      */
     public function index()
     {
-        return  Patients::paginate(1);
+            return  Patients::paginate(1);
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -71,6 +74,7 @@ class PatientsController extends Controller
      */
     public function destroy( $id)
     {
+        $this->authorize('create-delete-user');
         $patients = Patients::findOrFail($id);
         $patients->delete();
         return response()->json($patients);

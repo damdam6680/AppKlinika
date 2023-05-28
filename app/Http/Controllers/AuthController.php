@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-     /**
+    /**
      * Create User
      * @param Request $request
      * @return User
@@ -91,7 +91,8 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User Logged In Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'token' => $user->createToken("API TOKEN")->plainTextToken,
+                'role' => $user->role,
             ], 200);
 
         } catch (\Throwable $th) {
@@ -100,5 +101,9 @@ class AuthController extends Controller
                 'message' => $th->getMessage()
             ], 500);
         }
+    }
+
+    public function logout(){
+
     }
 }

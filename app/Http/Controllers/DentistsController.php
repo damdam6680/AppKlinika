@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dentists;
 use App\Http\Requests\StoreDentistsRequest;
 use App\Http\Requests\UpdateDentistsRequest;
-
+use App\Http\Controllers\ResourcesPatientsResource;
 class DentistsController extends Controller
 {
     /**
@@ -29,7 +29,7 @@ class DentistsController extends Controller
      */
     public function store($id)
     {
-        return new ResourcesPatientsResource(Dentists::create($request -> all()));
+      //  return new ResourcesPatientsResource(Dentists::create($request -> all()));
     }
 
     /**
@@ -37,7 +37,7 @@ class DentistsController extends Controller
      */
     public function show($id)
     {
-        $dentists = Patients::findOrFail($id);
+        $dentists = Dentists::findOrFail($id);
 
         return response()->json($dentists);
     }
