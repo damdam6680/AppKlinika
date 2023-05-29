@@ -9,6 +9,7 @@ class UserController extends Controller
 {
     public function index()
     {
+        $this->authorize('create-delete-user');
         return  User::paginate(5);
     }
 
@@ -41,10 +42,6 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Patients $patients)
-    {
-
-    }
 
     /**
      * Update the specified resource in storage.
