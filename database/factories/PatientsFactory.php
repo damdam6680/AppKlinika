@@ -1,10 +1,10 @@
 <?php
 
 namespace Database\Factories;
-use App\Models\Patient;
+use App\Models\Patients;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use Illuminate\Support\Facades\DB;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Patients>
  */
@@ -18,14 +18,17 @@ class PatientsFactory extends Factory
 
     public function definition(): array
     {
+        $availableUserIds = User::where('role', 'is_User')->pluck('id')->toArray();
+
+
 
         return [
-            'first_name' => fake()->firstName,
-            'last_name' => fake()->lastName,
-            'pesel' => fake()->numerify('###########'),
-            'address' => fake()->address,
-            'phone' => fake()->phoneNumber,
-            'user_id' => User::where('role', 'is_User')->inRandomOrder()->value('id'),
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'pesel' => $this->faker->unique()->numerify('###########'),
+            'address' => $this->faker->address,
+            'phone' => $this->faker->phoneNumber,
+            'user_id' => $this->faker->unique()->numberBetween(1, 50),
         ];
     }
 

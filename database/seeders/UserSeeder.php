@@ -14,6 +14,22 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        User::factory()->count(50)->state(function (array $attributes) {
+            return [
+                'role' => 'is_User',
+            ];
+        })->create();
+
+    // Tworzenie użytkowników z rolą is_dentis (51-100)
+        User::factory()
+        ->count(50)
+        ->state(function (array $attributes) {
+            return [
+                'role' => 'is_Dentists',
+            ];
+        })
+        ->create();
+
 
 
         // Tworzenie administratora

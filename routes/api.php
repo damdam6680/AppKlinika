@@ -28,11 +28,11 @@ use App\Http\Controllers\User;
 // });
 
 // // Trasy wymagające roli administratora
-Route::group(['namespace' => 'App\Http\Controllers'], function () {
-    Route::apiResource('patients', PatientsController::class);
-    Route::apiResource('dentists', DentistsController::class);
-    Route::apiResource('user',UserController::class);
-});
+// Route::group(['namespace' => 'App\Http\Controllers'], function () {
+//     Route::apiResource('patients', PatientsController::class);
+//     Route::apiResource('dentists', DentistsController::class);
+//     Route::apiResource('user',UserController::class);
+// });
 
 // Route::any('admin/access/denied', function () {
 //     return response()->json(['error' => 'Access denied for admin'], 403);
@@ -42,6 +42,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
 Route::middleware('auth:sanctum')->group(function(){
     Route::apiResource('patients', PatientsController::class);
     Route::apiResource('user',UserController::class);
+    Route::delete('patients/{id}', [PatientsController::class, 'destroy']);
+    Route::delete('patients/{user_id}', [PatientsController::class, 'destroy']);
+
 });
 
 Route::post('/auth/register', [AuthController::class, 'createUser']);

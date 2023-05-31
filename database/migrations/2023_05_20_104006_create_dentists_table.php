@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('dentists', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id');//->unique();
+            $table->unsignedInteger('user_id')->unique();
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('first_name', 50);
             $table->string('last_name', 50);
