@@ -13,7 +13,7 @@ class DentistsSeeder extends Seeder
     public function run(): void
     {
         Dentists::factory()
-       ->count(3)
+       ->count(50)
        ->create();
     }
 }

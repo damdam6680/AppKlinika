@@ -22,7 +22,7 @@ class DentistsFactory extends Factory
             'last_name' =>fake()->lastName,
             'specialization' =>fake()->randomElement($specializations),
             'phone_number' =>fake()->phoneNumber,
-            'user_id' => User::where('role', 'is_Dentists')->inRandomOrder()->value('id'),
+            'user_id' => $this->faker->unique()->numberBetween(50, 100),
         ];
     }
 }

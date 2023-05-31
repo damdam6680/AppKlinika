@@ -13,7 +13,7 @@ class DentistsController extends Controller
      */
     public function index()
     {
-        return  Dentists::paginate(1);
+        return  Dentists::paginate(10);
     }
 
     /**

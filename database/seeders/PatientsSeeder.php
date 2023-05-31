@@ -14,7 +14,7 @@ class PatientsSeeder extends Seeder
     public function run(): void
     {
        Patients::factory()
-       ->count(2)
+       ->count(50)
        ->create();
     }
 }

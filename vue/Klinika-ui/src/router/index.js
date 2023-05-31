@@ -47,7 +47,7 @@ const router = createRouter({
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import('../views/Dentist/ShowDentists.vue')
+        component: () => import('../views/Admin/ShowDentists.vue')
       },
     {
         path: '/ShowUsers',
@@ -56,6 +56,15 @@ const router = createRouter({
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () => import('../views/Admin/ShowUsers.vue')
+      },
+      {
+        path: '/EditUsers/:userId',
+        name: 'EditUsers',
+
+        // route level code-splitting
+        // this generates a separate chunk (About.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('../views/Admin/EditUsers.vue')
       }
   ]
 })
