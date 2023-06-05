@@ -30,7 +30,6 @@
   import Sidebar from '../sidebar.vue';
 
   const user = ref({
-    emails: '',
     first_name: '',
     last_name: '',
     specialization: '',
@@ -61,7 +60,7 @@
     const userId = route.params.userId;
 
     try {
-      await axios.put(`http://127.0.0.1:8000/api/dentist`, user.value, {
+      await axios.put(`http://127.0.0.1:8000/api/dentists/${userId}`, user.value, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

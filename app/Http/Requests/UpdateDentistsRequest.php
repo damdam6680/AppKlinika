@@ -11,7 +11,7 @@ class UpdateDentistsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,30 @@ class UpdateDentistsRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+        if ($method === 'PUT') {
+            return [
+                'user_id' => ['required'],
+                'first_name' => ['required', 'string', 'max:50'],
+                'last_name' => ['required', 'string', 'max:50'],
+                'specialization' => ['required', 'string', 'max:50'],
+                'phone_number' => ['required', 'string', 'max:20'],
+            ];
+        } else {
+            return [
+                'user_id' => ['sometimes', 'required'],
+                'first_name' => ['required', 'string', 'max:50'],
+                'last_name' => ['required', 'string', 'max:50'],
+                'specialization' => ['required', 'string', 'max:50'],
+                'phone_number' => ['required', 'string', 'max:20'],
+            ];
+        }
+
+    }
+    protected function prepareForValidation()
+    {
+        $this-> merge([
+            'postal_code' => $this->postalCode
+        ]);
     }
 }
