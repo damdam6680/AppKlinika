@@ -25,7 +25,7 @@ class PatientsController extends Controller
             'data' => $patients->items(),
             'links' => [
                 'first_page_url' => $patients->url(1),
-                'last_page_url' => $patients->url($users->lastPage()),
+                'last_page_url' => $patients->url($patients->lastPage()),
                 'prev_page_url' => $patients->previousPageUrl(),
                 'next_page_url' => $patients->nextPageUrl(),
             ],
@@ -55,6 +55,7 @@ class PatientsController extends Controller
      */
     public function store(StorePatientsRequest $request)
     {
+
         return new ResourcesPatientsResource(Patients::create($request -> all()));
     }
 

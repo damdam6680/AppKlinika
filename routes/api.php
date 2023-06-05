@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\PatientsController;
+use App\Http\Controllers\AppointmentsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Patients;
+use App\Models\Appointments;
 use App\Http\Controllers\DentistsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
@@ -42,6 +44,7 @@ use App\Http\Controllers\User;
 Route::middleware('auth:sanctum')->group(function(){
     Route::apiResource('patients', PatientsController::class);
     Route::apiResource('dentists', DentistsController::class);
+    Route::apiResource('appointments', AppointmentsController::class);
     Route::apiResource('user',UserController::class);
     Route::delete('patients/{id}', [PatientsController::class, 'destroy']);
     Route::delete('patients/{user_id}', [PatientsController::class, 'destroy']);

@@ -1,18 +1,11 @@
 usunąc patient__tritments
 dodac price w thretments
 dodac zabezpieczeni do route na podstawie roli
-//
-https://jwt.io/introduction
-https://www.digitalocean.com/community/tutorials/the-anatomy-of-a-json-web-token
-https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true)
-https://jwt.iohttps://dinochiesa.github.io/jwt
-https://github.com/PHP-Open-Source-Saver/jwt-auth
-https://laravel-jwt-auth.readthedocs.io/en/latest
-https://laravel-jwt-auth.readthedocs.io/en/latest/laravel-installation
-https://laravel-jwt-auth.readthedocs.io/en/latest/quick-start/
-https://laravel-jwt-auth.readthedocs.io/en/latest/auth-guard/
 
-//
 
 dodac wszedzie crud
 dodac kalnedarz
+
+
+jutro dodać
+jutro dodać dodawanie apoitments dla pacjentów

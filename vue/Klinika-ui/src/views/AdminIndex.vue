@@ -36,6 +36,5 @@ onMounted(async () => {
 <template>
 
 <Sidebar></Sidebar>
-
-
+<div class="p-4 sm:ml-64"><h1>Witaj Adminie</h1></div>
 </template>

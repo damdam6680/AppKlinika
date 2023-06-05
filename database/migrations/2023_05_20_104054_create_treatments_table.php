@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('appointments_id')->references('id')->on('appointments');
             $table->string('treatment_name', 50);
             $table->text('description');
+            $table->integer("WaitingTime");
             $table->decimal('price', 8, 2);
             $table->timestamps();
         });
