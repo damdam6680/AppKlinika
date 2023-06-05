@@ -59,12 +59,23 @@ const router = createRouter({
       },
       {
         path: '/EditUsers/:userId',
+
         name: 'EditUsers',
 
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import('../views/Admin/EditUsers.vue')
+        component: () => import('../views/Admin/EditUsers.vue'),
+
+      },
+      {
+        path: '/EditDentists/:userId',
+        name: 'EditDentists',
+
+        // route level code-splitting
+        // this generates a separate chunk (About.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('../views/Admin/EditDentists.vue')
       }
   ]
 })

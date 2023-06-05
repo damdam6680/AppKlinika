@@ -13,7 +13,30 @@ class DentistsController extends Controller
      */
     public function index()
     {
-        return  Dentists::paginate(10);
+
+       // $this->authorize('create-delete-user');
+
+
+        $perPage = 10; // liczba rekordów na stronę
+        $dentists = Dentists::with('user')->paginate($perPage);
+
+        $response = [
+            'data' => $dentists->items(),
+            'links' => [
+                'first_page_url' => $dentists->url(1),
+                'last_page_url' => $dentists->url($dentists->lastPage()),
+                'prev_page_url' => $dentists->previousPageUrl(),
+                'next_page_url' => $dentists->nextPageUrl(),
+            ],
+            'meta' => [
+                'current_page' => $dentists->currentPage(),
+                'from' => $dentists->firstItem(),
+                'to' => $dentists->lastItem(),
+                'per_page' => $dentists->perPage(),
+                'total' => $dentists->total(),
+            ],
+        ];
+        return response()->json($response);
     }
 
     /**

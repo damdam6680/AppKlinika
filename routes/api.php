@@ -41,6 +41,7 @@ use App\Http\Controllers\User;
 
 Route::middleware('auth:sanctum')->group(function(){
     Route::apiResource('patients', PatientsController::class);
+    Route::apiResource('dentists', DentistsController::class);
     Route::apiResource('user',UserController::class);
     Route::delete('patients/{id}', [PatientsController::class, 'destroy']);
     Route::delete('patients/{user_id}', [PatientsController::class, 'destroy']);

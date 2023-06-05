@@ -22,7 +22,7 @@ class User extends Authenticatable
 
     public function dentists()
     {
-        return $this->belongsTo(Patient::class);
+        return $this->hasMany(Patient::class);
     }
 
     /**

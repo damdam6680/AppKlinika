@@ -17,7 +17,27 @@ class PatientsController extends Controller
      */
     public function index()
     {
-            return  Patients::paginate(1);
+        $this->authorize('create-delete-user');
+        $perPage = 10; // liczba rekordów na stronę
+        $patients = Patients::paginate($perPage);
+
+        $response = [
+            'data' => $patients->items(),
+            'links' => [
+                'first_page_url' => $patients->url(1),
+                'last_page_url' => $patients->url($users->lastPage()),
+                'prev_page_url' => $patients->previousPageUrl(),
+                'next_page_url' => $patients->nextPageUrl(),
+            ],
+            'meta' => [
+                'current_page' => $patients->currentPage(),
+                'from' => $patients->firstItem(),
+                'to' => $patients->lastItem(),
+                'per_page' => $patients->perPage(),
+                'total' => $patients->total(),
+            ],
+        ];
+        return response()->json($response);
     }
 
 
