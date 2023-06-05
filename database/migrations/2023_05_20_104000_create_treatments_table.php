@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('treatments', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('appointments_id')->unique();
-            $table->foreign('appointments_id')->references('id')->on('appointments');
             $table->string('treatment_name', 50);
             $table->text('description');
             $table->integer("WaitingTime");

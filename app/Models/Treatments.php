@@ -27,4 +27,9 @@ class Treatments extends Model
     {
         return $this->belongsTo(Dentist::class);
     }
+    public function treatments()
+    {
+        return $this->hasMany(Appointments::class);
+    }
+
 }

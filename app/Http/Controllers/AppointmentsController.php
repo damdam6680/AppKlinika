@@ -50,8 +50,8 @@ class AppointmentsController extends Controller
     {
 
 
-        $appointment = Appointments::create($request->all());
-        return response()->json($appointment, 201);
+        return new AppointmentsController(Appointments::create($request -> all()));
+
     }
 
     /**
