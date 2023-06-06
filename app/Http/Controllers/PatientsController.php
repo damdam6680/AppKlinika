@@ -9,6 +9,7 @@ use App\Models\User;
 
 use App\Http\Requests\PatientsResource;
 use App\Http\Resources\PatientsResource as ResourcesPatientsResource;
+use Illuminate\Support\Facades\Auth;
 
 class PatientsController extends Controller
 {
@@ -17,9 +18,9 @@ class PatientsController extends Controller
      */
     public function index()
     {
-        $this->authorize('create-delete-user');
+       // $this->authorize('create-delete-user');
         $perPage = 10; // liczba rekordów na stronę
-        $patients = Patients::paginate($perPage);
+        $patients = Patients::with('user')->paginate($perPage);
 
         $response = [
             'data' => $patients->items(),
@@ -62,9 +63,12 @@ class PatientsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show()
     {
-        $patient = Patients::findOrFail($id);
+
+        $user = Auth::user();
+
+        $patient = Patients::with('user')->findOrFail($user->id);
 
         return response()->json($patient);
     }
@@ -80,9 +84,10 @@ class PatientsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePatientsRequest $request,$id)
+    public function update(UpdatePatientsRequest $request)
     {
-        $patients = Patients::findOrFail($id);
+        $user = Auth::user();
+        $patients = Patients::with('user')->findOrFail($user->id);
         $patients -> update($request->all());
 
         $patients->save();

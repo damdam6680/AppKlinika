@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use App\Models\Appointments;
 use App\Http\Requests\StoreAppointmentsRequest;
 use App\Http\Requests\UpdateAppointmentsRequest;
+
 class AppointmentsController extends Controller
 {
     /**
@@ -48,9 +49,13 @@ class AppointmentsController extends Controller
      */
     public function store(StoreAppointmentsRequest $request)
     {
-        $visitDate = $request->input('visit_date');
-        $visitTime = $request->input('visit_time');
-        $visitEndTime = $request->input('visit_end');
+        $visitDate = Carbon::createFromFormat('d-m-Y', $request->input('visit_date'))->format('Y-m-d');
+        $visitTime = Carbon::createFromFormat('H:i', $request->input('visit_time'))->format('H:i:s');
+        $visitEndTime = Carbon::createFromFormat('H:i', $request->input('visit_end'))->format('H:i:s');
+
+        if (!$this->isVisitTimeBeforeEnd($visitTime, $visitEndTime)) {
+            return response()->json(['error' => 'Visit time cannot be later than visit end time.'], 422);
+        }
 
         // Sprawdzenie, czy podane czasy nie zachodzą na siebie
         if ($this->isTimeCollision($visitDate, $visitTime, $visitEndTime)) {
@@ -59,10 +64,12 @@ class AppointmentsController extends Controller
 
         // Tworzenie nowego zapisu
         $appointment = new Appointments($request->all());
+        $appointment->visit_date = $visitDate;
+        $appointment->visit_time = $visitTime;
+        $appointment->visit_end = $visitEndTime;
         $appointment->save();
 
         return response()->json($appointment);
-
     }
 
     /**
@@ -71,7 +78,6 @@ class AppointmentsController extends Controller
     public function show($id)
     {
         $patient = Appointments::findOrFail($id);
-
         return response()->json($patient);
     }
 
@@ -86,11 +92,10 @@ class AppointmentsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAppointmentsRequest $request,$id)
+    public function update(UpdateAppointmentsRequest $request, $id)
     {
         $patients = Appointments::findOrFail($id);
-        $patients -> update($request->all());
-
+        $patients->update($request->all());
         $patients->save();
 
         return response()->json($patients);
@@ -105,28 +110,40 @@ class AppointmentsController extends Controller
     }
 
     /**
- * Check if the visit time and end time collide with existing appointments.
- *
- * @param  string  $visitTime
- * @param  string  $visitEndTime
- * @return bool
- */
-private function isTimeCollision($visitDate, $visitTime, $visitEndTime)
-{
-    $visitDateTime = Carbon::createFromFormat('d/m/Y H:i', $visitDate . ' ' . $visitTime);
-    $visitEndDateTime = Carbon::createFromFormat('d/m/Y H:i', $visitDate . ' ' . $visitEndTime);
+     * Check if the visit time and end time collide with existing appointments.
+     *
+     * @param  string  $visitDate
+     * @param  string  $visitTime
+     * @param  string  $visitEndTime
+     * @return bool
+     */
+    private function isTimeCollision($visitDate, $visitTime, $visitEndTime)
+    {
+        $visitDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $visitDate . ' ' . $visitTime);
+        $visitEndDateTime = Carbon::createFromFormat('Y-m-d H:i:s', $visitDate . ' ' . $visitEndTime);
 
-    $appointments = Appointments::where('visit_date', $visitDateTime->format('Y-m-d'))
-        ->where(function ($query) use ($visitDateTime, $visitEndDateTime) {
-            $query->where(function ($subQuery) use ($visitDateTime, $visitEndDateTime) {
-                $subQuery->where('visit_time', '>=', $visitDateTime)
-                    ->where('visit_time', '<', $visitEndDateTime);
-            })->orWhere(function ($subQuery) use ($visitDateTime, $visitEndDateTime) {
-                $subQuery->where('visit_time', '<=', $visitDateTime)
-                    ->where('visit_end', '>', $visitDateTime);
-            });
-        })->exists();
+        $appointments = Appointments::where('visit_date', $visitDateTime->format('Y-m-d'))
+            ->where(function ($query) use ($visitDateTime, $visitEndDateTime) {
+                $query->where(function ($subQuery) use ($visitDateTime, $visitEndDateTime) {
+                    $subQuery->where('visit_time', '>=', $visitDateTime)
+                        ->where('visit_time', '<', $visitEndDateTime);
+                })->orWhere(function ($subQuery) use ($visitDateTime, $visitEndDateTime) {
+                    $subQuery->where('visit_time', '<=', $visitDateTime)
+                        ->where('visit_end', '>', $visitDateTime);
+                });
+            })->exists();
 
-    return $appointments;
-}
+        return $appointments;
+    }
+       /**
+     * Check if visit_time is before visit_end.
+     *
+     * @param  string  $visitTime
+     * @param  string  $visitEndTime
+     * @return bool
+     */
+    private function isVisitTimeBeforeEnd($visitTime, $visitEndTime)
+    {
+        return $visitTime < $visitEndTime;
+    }
 }

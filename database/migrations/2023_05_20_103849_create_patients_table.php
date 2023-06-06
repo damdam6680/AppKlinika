@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('pesel', 11);
             $table->string('address', 100);
             $table->string('phone', 20);
+            $table->string('gender', 10);
+            $table->date('birthday');
             $table->timestamps();
 
 

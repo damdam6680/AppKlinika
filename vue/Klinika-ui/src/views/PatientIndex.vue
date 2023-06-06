@@ -1,5 +1,37 @@
 <script setup>
-import navbar from './navbar.vue' ;
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import navbar from './navbar.vue';
+
+const users = ref([]);
+const email = ref('');
+const user_name = ref('');
+
+const fetchUser = async () => {
+  const token = localStorage.getItem('token');
+
+  try {
+    const response = await axios.get('http://127.0.0.1:8000/api/patients/me', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    users.value = response.data; // Assign the user ID to the ref
+    email.value = response.data.user.email; // Assign the email to the ref
+    user_name.value = response.data.user.name;
+    console.log(email.value);
+
+    console.log(users.value);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+onMounted(() => {
+  fetchUser();
+});
+
 </script>
 
 <template>
@@ -22,7 +54,7 @@ import navbar from './navbar.vue' ;
                                    src="https://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg"
                                    alt="">
                            </div>
-                           <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">Jane Doe</h1>
+                           <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{user_name}}</h1>
                            <h3 class="text-gray-600 font-lg text-semibold leading-6">Owner at Her Company Inc.</h3>
                            <p class="text-sm text-gray-500 hover:text-gray-600 leading-6 pb-64">Lorem ipsum dolor sit amet
                                consectetur adipisicing elit.
@@ -62,43 +94,37 @@ import navbar from './navbar.vue' ;
                                <div class="grid md:grid-cols-2 text-sm">
                                    <div class="grid grid-cols-2">
                                        <div class="px-4 py-2 font-semibold">First Name</div>
-                                       <div class="px-4 py-2">Jane</div>
+                                       <div class="px-4 py-2">{{ users.first_name }}</div>
                                    </div>
                                    <div class="grid grid-cols-2">
                                        <div class="px-4 py-2 font-semibold">Last Name</div>
-                                       <div class="px-4 py-2">Doe</div>
+                                       <div class="px-4 py-2">{{ users.last_name }}</div>
                                    </div>
                                    <div class="grid grid-cols-2">
                                        <div class="px-4 py-2 font-semibold">Gender</div>
-                                       <div class="px-4 py-2">Female</div>
+                                       <div class="px-4 py-2">{{users.gender}}</div>
                                    </div>
                                    <div class="grid grid-cols-2">
                                        <div class="px-4 py-2 font-semibold">Contact No.</div>
-                                       <div class="px-4 py-2">+11 998001001</div>
-                                   </div>
-                                   <div class="grid grid-cols-2">
-                                       <div class="px-4 py-2 font-semibold">Current Address</div>
-                                       <div class="px-4 py-2">Beech Creek, PA, Pennsylvania</div>
+                                       <div class="px-4 py-2">{{ users.phone}}</div>
                                    </div>
                                    <div class="grid grid-cols-2">
                                        <div class="px-4 py-2 font-semibold">Permanant Address</div>
-                                       <div class="px-4 py-2">Arlington Heights, IL, Illinois</div>
+                                       <div class="px-4 py-2">{{users.address}}</div>
                                    </div>
                                    <div class="grid grid-cols-2">
-                                       <div class="px-4 py-2 font-semibold">Email.</div>
+                                       <div class="px-4 py-2 font-semibold"></div>
                                        <div class="px-4 py-2">
-                                           <a class="text-blue-800" href="mailto:jane@example.com">jane@example.com</a>
+                                           <a class="text-blue-800" href="mailto:{{email}}">{{email}}</a>
                                        </div>
                                    </div>
                                    <div class="grid grid-cols-2">
                                        <div class="px-4 py-2 font-semibold">Birthday</div>
-                                       <div class="px-4 py-2">Feb 06, 1998</div>
+                                       <div class="px-4 py-2">{{users.birthday}}</div>
                                    </div>
                                </div>
                            </div>
-                           <button
-                               class="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Show
-                               Full Information</button>
+                           <router-link to="/EditPatientsData" class="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Edit Informations</router-link>
                        </div>
                        <!-- End of about section -->
 

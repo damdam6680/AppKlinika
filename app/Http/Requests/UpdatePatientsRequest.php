@@ -30,6 +30,8 @@ class UpdatePatientsRequest extends FormRequest
                 'pesel' => ['required'],
                 'address' => ['required'],
                 'phone' => ['required'],
+                'gender' => ['required'],
+                'birthday' => ['required']
             ];
         }else{
             return [
@@ -39,6 +41,8 @@ class UpdatePatientsRequest extends FormRequest
                 'pesel' => ['sometimes','required'],
                 'address' => ['sometimes','required'],
                 'phone' => ['sometimes','required'],
+                'gender' => ['sometimes','required'],
+                'birthday' => ['sometimes   ','required']
             ];
         }
 

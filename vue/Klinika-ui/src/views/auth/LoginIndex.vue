@@ -26,7 +26,9 @@ const login = () => {
       console.log(response.data);
 
       const token = response.data.token;
+      const id = response.data.id;
       localStorage.setItem('token', token);
+      localStorage.setItem('id', id);
       // Sprawdź rolę użytkownika
       const role = response.data.role;
       if (role === 'is_User') {

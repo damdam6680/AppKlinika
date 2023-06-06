@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $this->authorize('create-delete-user');
+       // $this->authorize('create-delete-user');
         $perPage = 10; // liczba rekordów na stronę
         $users = User::paginate($perPage);
 

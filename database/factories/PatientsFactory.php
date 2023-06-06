@@ -29,6 +29,8 @@ class PatientsFactory extends Factory
             'address' => $this->faker->address,
             'phone' => $this->faker->phoneNumber,
             'user_id' => $this->faker->unique()->numberBetween(1, 50),
+            'gender' => $this->faker->randomElement(['Female', 'Male']),
+            'birthday' => $this->faker->date(),
         ];
     }
 
