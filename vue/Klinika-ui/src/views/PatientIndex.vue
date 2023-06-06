@@ -1,3 +1,6 @@
+<!-- dodac przyciski  -->
+<!-- dodac widok doktorów -->
+<!-- dodac tabele z zabiegami -->
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';

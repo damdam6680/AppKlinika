@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Patients;
 use App\Models\Appointments;
 use App\Http\Controllers\DentistsController;
+use App\Http\Controllers\TreatmentsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\User;
@@ -47,6 +48,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::apiResource('appointments', AppointmentsController::class);
     Route::get('patients/me', [PatientsController::class, 'show']);
     Route::apiResource('user',UserController::class);
+    Route::apiResource('treatments',TreatmentsController::class);
+
     Route::delete('patients/{id}', [PatientsController::class, 'destroy']);
     Route::delete('patients/{user_id}', [PatientsController::class, 'destroy']);
 

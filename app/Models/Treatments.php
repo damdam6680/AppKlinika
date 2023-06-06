@@ -18,16 +18,8 @@ class Treatments extends Model
 
     ];
 
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class);
-    }
 
-    public function dentist()
-    {
-        return $this->belongsTo(Dentist::class);
-    }
-    public function treatments()
+    public function appointments()
     {
         return $this->hasMany(Appointments::class);
     }
