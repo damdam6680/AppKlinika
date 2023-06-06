@@ -46,19 +46,15 @@ onMounted(() => {
            <div class="container mx-auto my-5 p-5">
                <div class="md:flex no-wrap md:-mx-2 ">
                    <!-- Left Side -->
-                   <div class="w-full md:w-3/12 md:mx-2">
+                   <div class="w-full  md:w-3/12 md:mx-2">
                        <!-- Profile Card -->
                        <div class="bg-white p-6 h-full border-t-4 border-green-400">
                            <div class="image overflow-hidden">
-                               <img class="h-auto w-full mx-auto"
-                                   src="https://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg"
-                                   alt="">
+
                            </div>
                            <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{user_name}}</h1>
-                           <h3 class="text-gray-600 font-lg text-semibold leading-6">Owner at Her Company Inc.</h3>
-                           <p class="text-sm text-gray-500 hover:text-gray-600 leading-6 pb-64">Lorem ipsum dolor sit amet
-                               consectetur adipisicing elit.
-                               Reprehenderit, eligendi dolorum sequi illum qui unde aspernatur non deserunt</p>
+                           <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium my-8 mb-10 rounded-lg text-sm px-5 py-2.5 mr-2 w-full dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Make Appoitment</button>
+                           <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-10 dark:bg-blue-600 dark:hover:bg-blue-700 w-full focus:outline-none dark:focus:ring-blue-800">Show Doctors</button>
                            <ul
                                class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-2  divide-y rounded shadow-sm">
                                <li class="flex items-center py-3">
