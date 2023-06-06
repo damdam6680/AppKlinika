@@ -10,6 +10,7 @@ use App\Http\Controllers\DentistsController;
 use App\Http\Controllers\TreatmentsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+
 use App\Http\Controllers\User;
 /*
 |--------------------------------------------------------------------------
@@ -57,3 +58,4 @@ Route::middleware('auth:sanctum')->group(function(){
 
 Route::post('/auth/register', [AuthController::class, 'createUser']);
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
+

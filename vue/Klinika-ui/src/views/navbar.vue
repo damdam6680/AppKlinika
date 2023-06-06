@@ -12,7 +12,7 @@
               <a href="/login">Login</a>
             </button>
             <button id="registerButton" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-3">
-              Sing up
+              Sign up
             </button>
             <button id="logoutButton" type="button" class="hidden text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
               Logout
@@ -48,18 +48,36 @@
 
   onMounted(() => {
     // Sprawdź, czy istnieje token
-    const hasToken =  localStorage.getItem('token'); // Tutaj należy zaimplementować odpowiednią logikę weryfikacji tokenu
+    const hasToken = localStorage.getItem('token'); // Tutaj należy zaimplementować odpowiednią logikę weryfikacji tokenu
 
     // Pobierz przyciski
     const loginButton = document.getElementById('loginButton');
     const registerButton = document.getElementById('registerButton');
     const logoutButton = document.getElementById('logoutButton');
 
-    // Jeśli istnieje token, ukryj przyciski "Login" i "Sing up", pokaż przycisk "Logout"
-    if (hasToken.length > 0) {
+    // Jeśli istnieje token, ukryj przyciski "Login" i "Sign up", pokaż przycisk "Logout"
+    if (hasToken && hasToken.length > 0) {
       loginButton.style.display = 'none';
       registerButton.style.display = 'none';
       logoutButton.style.display = 'inline-block';
     }
+
+    // Dodaj obsługę kliknięcia przycisku "Logout"
+    logoutButton.addEventListener('click', () => {
+      // Wywołaj funkcję logout API, aby unieważnić token i zrealizować wylogowanie
+      // Tutaj można dodać odpowiednie żądanie HTTP, aby unieważnić token serwerowo
+      // Po zakończeniu wylogowania można przekierować użytkownika na stronę logowania lub inny widok
+
+      // Na potrzeby przykładu usuniemy token z lokalnego składowania
+      localStorage.removeItem('token');
+
+      // Ukryj przycisk "Logout" i pokaż przyciski "Login" i "Sign up"
+      logoutButton.style.display = 'none';
+      loginButton.style.display = 'inline-block';
+      registerButton.style.display = 'inline-block';
+
+
+      window.location.href = '/';
+    });
   });
   </script>
