@@ -15,7 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('treatment_name', 50);
             $table->text('description');
-            $table->integer("WaitingTime");
+            $table->integer("waiting_time");
             $table->decimal('price', 8, 2);
             $table->timestamps();
         });

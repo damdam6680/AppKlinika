@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('treatmets_id')->references('id')->on('treatments');
             $table->date('visit_date');
             $table->time('visit_time');
+            $table->time('visit_end');
             $table->text('description');
             $table->timestamps();
         });
