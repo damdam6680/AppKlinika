@@ -28,6 +28,7 @@ class StoreAppointmentsRequest extends FormRequest
         return [
             'patient_id' =>  ['required'],
             'dentist_id' => ['required'],
+            'treatmets_id' => ['required'],
             'visit_date' => ['required'],
             'visit_time' =>  ['required'],
             'description' =>  ['required'],
