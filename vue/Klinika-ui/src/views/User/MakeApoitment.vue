@@ -5,6 +5,8 @@ import 'form-wizard-vue3/dist/form-wizard-vue3.css';
 import Wizard from 'form-wizard-vue3';
 import navbar from '../navbar.vue';
 
+
+
 export default {
   name: 'App',
   components: {
@@ -30,10 +32,25 @@ export default {
     wizardCompleted() {
       console.log('Wizard Completed');
     },
+    chooseDentist(dentistId) {
+      // Zapisz wybór użytkownika w zmiennej
+      this.selectedDentist = dentistId;
+
+      // Wyświetl powiadomienie
+    console.log("wybrano");
+    },
+
+    chooseTreatment(treatmentId) {
+      // Zapisz wybór użytkownika w zmiennej
+      this.selectedTreatment = treatmentId;
+
+      // Wyświetl powiadomienie
+      console.log(treatmentId);
+    },
   },
   computed: {
     nextButtonOptions() {
-      return this.currentTabIndex === 2
+      return this.currentTabIndex === 3
         ? {
             text: 'test',
             icon: 'check',
@@ -51,10 +68,21 @@ export default {
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
+const time = ref({
+  hours: new Date().getHours(),
+  minutes: new Date().getMinutes()
+});
+
+const date = ref(new Date());
+
+console.log(date);
+
 
 const users = ref([]);
 const emails = ref({});
 const pagination = ref({});
+
+
 
 const fetchUsers = async (url) => {
   const token = localStorage.getItem('token');
@@ -148,7 +176,7 @@ height: 100%;
 
 <template>
   <navbar></navbar>
-  <div id="app" >
+  <div id="app">
     <div>
       <Wizard
         squared-tabs
@@ -165,6 +193,9 @@ height: 100%;
           },
           {
             title: 'Choose Date',
+          },
+          {
+            title: 'Summary',
           }
         ]"
         :beforeChange="onTabBeforeChange"
@@ -172,118 +203,112 @@ height: 100%;
         @complete:wizard="wizardCompleted"
       >
         <div v-if="currentTabIndex === 0">
-
-            <div class="mx-auto flex-1 p-3">
-              <div class="relative overflow-x-auto shadow-2xl sm:rounded-lg">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                  <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                      <th scope="col" class="px-6 py-3">
-                        Email
-                      </th>
-                      <th scope="col" class="px-6 py-3">
-                        First Name
-                      </th>
-                      <th scope="col" class="px-6 py-3">
-                        Last Name
-                      </th>
-                      <th scope="col" class="px-6 py-3">
-                        Specialization
-                      </th>
-                      <th scope="col" class="px-6 py-3">
-                        Phone Number
-                      </th>
-                      <th scope="col" class="px-6 py-3">
-                        Choose Dentist
-                        </th>
-
-                    </tr>
-                  </thead>
-                  <tbody>
-                      <tr v-for="user in users" :key="user.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-
-                        </td>
-                        <td class="px-6 py-4">
-                          {{ user.description }}
-                        </td>
-                        <td class="px-6 py-4">
-                          {{ user.last_name }}
-                        </td>
-                        <td class="px-6 py-4">
-                          {{ user.specialization }}
-                        </td>
-                        <td class="px-6 py-4">
-                          {{ user.phone_number }}
-                        </td>
-                        <td class="px-6 py-4">
-                                choose
-                          </td>
-
-
-                      </tr>
-                    </tbody>
-                </table>
-              </div>
-              <div class="mt-4">
-                <button v-if="pagination.prev_page_url" @click="fetchUsers(pagination.prev_page_url)" class="px-3 py-2 text-xs font-medium leading-4 text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Previous</button>
-                <button v-if="pagination.next_page_url" @click="fetchUsers(pagination.next_page_url)" class="ml-2 px-3 py-2 text-xs font-medium leading-4 text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Next</button>
-              </div>
+          <div class="mx-auto flex-1 p-3">
+            <div class="relative overflow-x-auto shadow-2xl sm:rounded-lg">
+              <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" class="px-6 py-3">
+                      First Name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Last Name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Specialization
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Phone Number
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Choose Dentist
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="user in users" :key="user.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <td class="px-6 py-4">
+                      {{ user.first_name }}
+                    </td>
+                    <td class="px-6 py-4">
+                      {{ user.last_name }}
+                    </td>
+                    <td class="px-6 py-4">
+                      {{ user.specialization }}
+                    </td>
+                    <td class="px-6 py-4">
+                      {{ user.phone_number }}
+                    </td>
+                    <td class="px-6 py-4">
+                      <button @click="chooseDentist(user)" class="px-3 py-2 text-xs font-medium leading-4 text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Choose</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="mt-4">
+              <button v-if="pagination.prev_page_url" @click="fetchUsers(pagination.prev_page_url)" class="px-3 py-2 text-xs font-medium leading-4 text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Previous</button>
+              <button v-if="pagination.next_page_url" @click="fetchUsers(pagination.next_page_url)" class="ml-2 px-3 py-2 text-xs font-medium leading-4 text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Next</button>
             </div>
           </div>
+        </div>
 
         <div v-if="currentTabIndex === 1">
-
-                <div class="mx-auto flex-1 p-3">
-                  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                          <th scope="col" class="px-6 py-3">
-                            treatment name
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                            description
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                            waiting time
-                          </th>
-                          <th scope="col" class="px-6 py-3">
-                            price
-                          </th>
-
-                        </tr>
-                      </thead>
-                      <tbody>
-                          <tr v-for="treatment in treatments" :key="treatment.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                              {{ treatment.treatment_name }}
-                            </td>
-                            <td class="px-6 py-4">
-                              {{ treatment.description }}
-                            </td>
-                            <td class="px-6 py-4">
-                              {{ treatment.waiting_time }}
-                            </td>
-                            <td class="px-6 py-4">
-                              {{ treatment.price }}
-                            </td>
-
-
-                          </tr>
-                        </tbody>
-                    </table>
-                  </div>
-                  <div class="mt-4">
-                    <button v-if="pagination1.prev_page_url" @click="fetchUsers(pagination1.prev_page_url)" class="px-3 py-2 text-xs font-medium leading-4 text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Previous</button>
-                    <button v-if="pagination1.next_page_url" @click="fetchUsers(pagination1.next_page_url)" class="ml-2 px-3 py-2 text-xs font-medium leading-4 text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Next</button>
-                  </div>
-                </div>
-
-
-
+          <div class="mx-auto flex-1 p-3">
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+              <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <tr>
+                    <th scope="col" class="px-6 py-3">
+                      treatment name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      description
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      waiting time
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      price
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                      Choose Treatment
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="treatment in treatments" :key="treatment.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                      {{ treatment.treatment_name }}
+                    </td>
+                    <td class="px-6 py-4">
+                      {{ treatment.description }}
+                    </td>
+                    <td class="px-6 py-4">
+                      {{ treatment.waiting_time }}
+                    </td>
+                    <td class="px-6 py-4">
+                      {{ treatment.price }}
+                    </td>
+                    <td class="px-6 py-4">
+                      <button @click="chooseTreatment(treatment)" class="px-3 py-2 text-xs font-medium leading-4 text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Choose</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="mt-4">
+              <button v-if="pagination1.prev_page_url" @click="fetchTreatments(pagination1.prev_page_url)" class="px-3 py-2 text-xs font-medium leading-4 text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Previous</button>
+              <button v-if="pagination1.next_page_url" @click="fetchTreatments(pagination1.next_page_url)" class="ml-2 px-3 py-2 text-xs font-medium leading-4 text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Next</button>
+            </div>
+          </div>
         </div>
-        <div v-if="currentTabIndex === 2">Tab 0</div>
+
+        <div v-if="currentTabIndex === 2">
+            Tab 3
+        </div>
+
+        <div v-if="currentTabIndex === 3">Tab 0</div>
       </Wizard>
     </div>
   </div>
