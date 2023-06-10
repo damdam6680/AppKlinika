@@ -56,7 +56,11 @@ onMounted(() => {
 
                            </div>
                            <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{user_name}}</h1>
-                           <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium my-8 mb-10 rounded-lg text-sm px-5 py-2.5 mr-2 w-full dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Make Appoitment</button>
+                           <a href="/MakeApoitment">
+                            <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium my-8 mb-10 rounded-lg text-sm px-5 py-2.5 mr-2 w-full dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                              Make Appointment
+                            </button>
+                          </a>
                            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-10 dark:bg-blue-600 dark:hover:bg-blue-700 w-full focus:outline-none dark:focus:ring-blue-800">Show Doctors</button>
                            <ul
                                class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-2  divide-y rounded shadow-sm">

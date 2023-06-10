@@ -27,7 +27,7 @@ class PatientsFactory extends Factory
             'last_name' => $this->faker->lastName,
             'pesel' => $this->faker->unique()->numerify('###########'),
             'address' => $this->faker->address,
-            'phone' => $this->faker->phoneNumber,
+            'phone' => $this->faker->numerify('####-###-###'),
             'user_id' => $this->faker->unique()->numberBetween(1, 50),
             'gender' => $this->faker->randomElement(['Female', 'Male']),
             'birthday' => $this->faker->date(),

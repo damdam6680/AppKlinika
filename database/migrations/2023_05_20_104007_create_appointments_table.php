@@ -22,7 +22,7 @@ return new class extends Migration
             $table->date('visit_date');
             $table->time('visit_time');
             $table->time('visit_end');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

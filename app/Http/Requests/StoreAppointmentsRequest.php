@@ -26,7 +26,6 @@ class StoreAppointmentsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'patient_id' =>  ['required'],
             'dentist_id' => ['required'],
             'treatmets_id' => ['required'],
             'visit_date' => ['required'],

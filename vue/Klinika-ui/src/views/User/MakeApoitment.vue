@@ -4,19 +4,30 @@
 import 'form-wizard-vue3/dist/form-wizard-vue3.css';
 import Wizard from 'form-wizard-vue3';
 import navbar from '../navbar.vue';
+import { onMounted } from "vue";
+import { Datepicker, Input, initTE } from "tw-elements";
 
-const dr = ref([]);
+  onMounted(() => {
+    initTE({ Datepicker, Input });
+  });
+const selectedDentist = ref({});
+const selectedTreatment = ref({});
 
 export default {
   name: 'App',
-  components: {
-    Wizard,
-    navbar,
-  },
   data() {
     return {
       currentTabIndex: 0,
+      selectedDate: '',
+      selectedTime: '',
+      selectedTreatmentDate: '',
+      formattedTime:'',
+      appointmentDescription: '',
     };
+  },
+  components: {
+    Wizard,
+    navbar,
   },
   methods: {
     onChangeCurrentTab(index, oldIndex) {
@@ -29,26 +40,74 @@ export default {
       }
       console.log('All Tabs');
     },
+
     wizardCompleted() {
-      console.log('Wizard Completed');
+
+        const appointmentData = {
+            dentist_id: selectedDentist.value.id,
+            treatmets_id: selectedTreatment.value.id,
+            visit_date: this.selectedDate,
+            visit_time: this.selectedTime,
+            visit_end: this.formattedTime,
+            description: this.appointmentDescription,
+  };
+
+
+  console.log(appointmentData.dentist_id);
+  console.log(appointmentData.treatmets_id);
+  console.log(appointmentData.visit_date);
+  console.log(appointmentData.visit_time);
+  console.log(appointmentData.visit_end);
+  console.log(appointmentData.description);
+
+  const token = localStorage.getItem('token');
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  axios
+    .post('http://127.0.0.1:8000/api/appointments', appointmentData, config)
+    .then((response) => {
+      // Obsłuż odpowiedź
+      console.log(response.data);
+    })
+    .catch((error) => {
+      // Obsłuż błąd
+      console.error(error);
+    });
+
+
     },
     chooseDentist(dentistId) {
-      // Zapisz wybór użytkownika w zmiennej
-        dr.value = dentistId;
-        console.log("did")
-        console.log(dentistId);
-      // Wyświetl powiadomienie
-      console.log("dr")
-        console.log(dr.valuwa);
-    },
+                // Assign the selected dentist directly to the property
+        selectedDentist.value = dentistId;
 
+        // Display the selected dentist in the console
+        console.log(selectedDentist);
+    },
     chooseTreatment(treatmentId) {
       // Zapisz wybór użytkownika w zmiennej
-      this.selectedTreatment = treatmentId;
+      selectedTreatment.value = treatmentId;
 
       // Wyświetl powiadomienie
       console.log(treatmentId);
     },
+    addAppointment() {
+        const selectedDateTime = new Date(`${this.selectedDate}T${this.selectedTime}:00`);
+
+         this.selectedTreatmentDate= new Date(`${this.selectedDate}T${selectedTreatment.value.waiting_time}`);
+
+        this.selectedTreatmentDate.setHours(this.selectedTreatmentDate.getHours() + selectedDateTime.getHours());
+        this.selectedTreatmentDate.setMinutes(this.selectedTreatmentDate.getMinutes() + selectedDateTime.getMinutes());
+        this.selectedTreatmentDate.setSeconds(this.selectedTreatmentDate.getSeconds() + selectedDateTime.getSeconds());
+
+        this.formattedTime = this.selectedTreatmentDate.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+
+        console.log( this.formattedTime);
+    },
+
   },
   computed: {
     nextButtonOptions() {
@@ -62,6 +121,8 @@ export default {
           }
         : { disabled: false };
     },
+
+
   },
 };
 </script>
@@ -71,32 +132,11 @@ import { ref, onMounted, watch   } from 'vue';
 import axios from 'axios';
 
 
-const date = ref(new Date());
-
-// Watch for changes in the date variable
-watch(date, (newDate) => {
-  console.log('Selected date:', newDate);
-});
-
-
-
-const time = ref({
-  hours: new Date().getHours(),
-  minutes: new Date().getMinutes(),
-});
-
-// Watch for changes in the time variable
-watch(time, (newTime) => {
-  console.log('Selected time:', newTime);
-});
-
-
-
 const users = ref([]);
 const emails = ref({});
 const pagination = ref({});
-
-
+const treatments = ref([]);
+const pagination1 = ref({});
 
 const fetchUsers = async (url) => {
   const token = localStorage.getItem('token');
@@ -110,25 +150,15 @@ const fetchUsers = async (url) => {
 
     users.value = response.data.data;
     pagination.value = response.data.links;
-
-
-
-
     // Pobierz wartości email dla każdego dentysty
     response.data.data.forEach((dentist) => {
-      emails.value[dentist.id] = dentist.user.email;
+        emails.value[dentist.id] = dentist.user.email;
     });
   } catch (error) {
     console.error(error);
   }
 };
 
-onMounted(() => {
-  fetchUsers('http://127.0.0.1:8000/api/dentists');
-});
-
-const treatments = ref([]);
-const pagination1 = ref({});
 
 const fetchTreatments = async (url) => {
   const token = localStorage.getItem('token');
@@ -150,11 +180,15 @@ const fetchTreatments = async (url) => {
 };
 
 onMounted(() => {
+    fetchUsers('http://127.0.0.1:8000/api/dentists');
     fetchTreatments('http://127.0.0.1:8000/api/treatments');
+
 });
 
 
 </script>
+
+
 
 
 <style>
@@ -204,22 +238,26 @@ height: 100%;
         :custom-tabs="[
           {
             title: 'Choose doctor',
+            index: 0,
           },
           {
             title: 'Choose treatments',
+            index: 1,
           },
           {
             title: 'Choose Date',
+            index: 2,
           },
           {
             title: 'Summary',
+            index: 3,
           }
         ]"
         :beforeChange="onTabBeforeChange"
         @change="onChangeCurrentTab"
         @complete:wizard="wizardCompleted"
       >
-        <div v-if="currentTabIndex === 0">
+      <div v-if="currentTabIndex === 0">
           <div class="mx-auto flex-1 p-3">
             <div class="relative overflow-x-auto shadow-2xl sm:rounded-lg">
               <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -322,43 +360,63 @@ height: 100%;
         </div>
 
         <div v-if="currentTabIndex === 2">
-            <VueDatePicker v-model="date" :min-date="new Date()" :enable-time-picker="false" />
-            <VueDatePicker v-model="time" time-picker />
+            <input type="date" id="selectedDate" v-model="selectedDate" name="selectedDate" />
+            <input type="time" id="selectedTime" v-model="selectedTime" name="selectedTime" />
+            <button @click="addAppointment" class="px-3 py-2 text-xs font-medium leading-4 text-white bg-blue-600 hover:bg-blue-700 rounded-lg">Dodaj</button>
         </div>
 
         <div v-if="currentTabIndex === 3">
 
 
             <form class="p-10" @submit.prevent="updateUser">
-                <div class="mb-6">
-                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dentist Name</label>
-                <input type="email" id="email" v-model="dr.values.first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                <div class="grid grid-cols-2 gap-4 ">
+                    <div>
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dentist Name</label>
+                     <input type="text" id="name" v-model="selectedDentist.first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    </div>
+
+                    <div>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dentist LastName</label>
+                        <input type="text" id="name"  v-model="selectedDentist.last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    </div>
                 </div>
                 <div class="mb-6">
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dentist LastName</label>
-                <input type="text" id="name" v-model="dr.values.last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    <div>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 pt-10 dark:text-white">Treatment Name</label>
+                        <input type="text" id="name"  v-model="selectedTreatment.treatment_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    </div>
                 </div>
                 <div class="mb-6">
-                <label for="procedureName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Procedure Name</label>
-                <input type="text" id="procedureName"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    <div>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 pt-10 dark:text-white">price</label>
+                        <input type="text" id="name"  v-model="selectedTreatment.price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    </div>
                 </div>
                 <div class="mb-6">
-                <label for="procedureCost" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Procedure Cost</label>
-                <input type="number" id="procedureCost"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    <div>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 pt-10 dark:text-white">Date</label>
+                        <input type="text" id="name"  v-model="selectedDate"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    </div>
                 </div>
                 <div class="mb-6">
-                <label for="date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
-                <VueDatePicker  />
+                    <div>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 pt-10 dark:text-white">Start Time</label>
+                        <input type="text" id="name" v-model="selectedTime"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    </div>
                 </div>
                 <div class="mb-6">
-                <label for="startTime" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Start Time</label>
-                <VueDatePicker  time-picker />
+                    <div>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 pt-10 dark:text-white">End Time</label>
+                        <input type="text" id="name" v-model="formattedTime"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                    </div>
                 </div>
                 <div class="mb-6">
-                <label for="endTime" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">End Time</label>
-                <VueDatePicker  time-picker />
+                    <div>
+                      <label for="description" class="block mb-2 text-sm font-medium text-gray-900 pt-10 dark:text-white">Opis</label>
+                      <textarea id="description" v-model="appointmentDescription" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
+                    </div>
                 </div>
-                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+
             </form>
 
 

@@ -5,7 +5,8 @@ use Carbon\Carbon;
 use App\Models\Appointments;
 use App\Http\Requests\StoreAppointmentsRequest;
 use App\Http\Requests\UpdateAppointmentsRequest;
-
+use App\Models\Patients;
+use Illuminate\Support\Facades\Auth;
 class AppointmentsController extends Controller
 {
     /**
@@ -49,7 +50,10 @@ class AppointmentsController extends Controller
      */
     public function store(StoreAppointmentsRequest $request)
     {
-        $visitDate = Carbon::createFromFormat('d-m-Y', $request->input('visit_date'))->format('Y-m-d');
+        $user = Auth::user();
+        $patient = Patients::where('user_id', $user->id)->firstOrFail();
+
+        $visitDate = Carbon::createFromFormat('Y-m-d', $request->input('visit_date'))->format('Y-m-d');
         $visitTime = Carbon::createFromFormat('H:i', $request->input('visit_time'))->format('H:i:s');
         $visitEndTime = Carbon::createFromFormat('H:i', $request->input('visit_end'))->format('H:i:s');
 
@@ -67,6 +71,7 @@ class AppointmentsController extends Controller
         $appointment->visit_date = $visitDate;
         $appointment->visit_time = $visitTime;
         $appointment->visit_end = $visitEndTime;
+        $appointment->patient_id = $patient->id;
         $appointment->save();
 
         return response()->json($appointment);

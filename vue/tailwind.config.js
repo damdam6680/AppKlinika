@@ -4,11 +4,13 @@ export default {
     './public/**/*.html',
     './src/**/*.{js,jsx,ts,tsx,vue}',
     "./node_modules/flowbite/**/*.js",
+    "./node_modules/tw-elements/dist/js/**/*.js",
   ],
   theme: {
     extend: {},
   },
   plugins: [
-    require('flowbite/plugin')
+    require('flowbite/plugin'),
+    require("tw-elements/dist/plugin.cjs")
   ],
 }
