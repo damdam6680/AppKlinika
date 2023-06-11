@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use App\Models\Appointments;
 use App\Http\Requests\StoreAppointmentsRequest;
 use App\Http\Requests\UpdateAppointmentsRequest;
+use App\Models\Dentists;
 use App\Models\Patients;
 use Illuminate\Support\Facades\Auth;
 class AppointmentsController extends Controller
@@ -14,7 +15,7 @@ class AppointmentsController extends Controller
      */
     public function index()
     {
-        $this->authorize('create-delete-user');
+        //$this->authorize('create-delete-user');
         $perPage = 10; // liczba rekordów na stronę
         $patients = Appointments::paginate($perPage);
 
@@ -151,4 +152,6 @@ class AppointmentsController extends Controller
     {
         return $visitTime < $visitEndTime;
     }
+
+
 }

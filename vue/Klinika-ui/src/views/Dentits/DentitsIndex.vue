@@ -1,0 +1,72 @@
+<template>
+    <Qalendar :events="events" />
+  </template>
+
+  <script>
+  import { Qalendar } from "qalendar";
+  import axios from "axios";
+
+  export default {
+    components: {
+      Qalendar,
+    },
+
+    data() {
+      return {
+        events: [],
+      };
+    },
+
+    mounted() {
+      this.fetchAppointments();
+    },
+
+    methods: {
+      fetchAppointments() {
+        const token = localStorage.getItem('token');
+
+        axios
+          .get("http://127.0.0.1:8000/api/appointments", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then((response) => {
+            console.log(response.data); // Wyświetlenie danych w konsoli
+
+            if (response.data && response.data.data && Array.isArray(response.data.data)) {
+              this.events = response.data.data.map((appointment) => {
+                return {
+                  title: 'zabieg',
+                  with: 'Chandler Bing',
+                  time: {
+                    start: this.formatDateTime(appointment.visit_date, appointment.visit_time),
+                    end: this.formatDateTime(appointment.visit_date, appointment.visit_end),
+                  },
+                  color: 'green',
+                  isEditable: false,
+                  id: appointment.id.toString(),
+                  description: appointment.description,
+                };
+              });
+            } else {
+              console.error("Invalid data format:", response.data);
+            }
+          })
+          .catch((error) => {
+            console.error("Failed to fetch appointments:", error);
+          });
+      },
+
+      formatDateTime(date, time) {
+        const [year, month, day] = date.split("-");
+        const [hour, minute, second] = time.split(":");
+        return `${year}-${month}-${day} ${hour}:${minute}`;
+      },
+    },
+  };
+  </script>
+
+  <style>
+  @import "qalendar/dist/style.css";
+  </style>

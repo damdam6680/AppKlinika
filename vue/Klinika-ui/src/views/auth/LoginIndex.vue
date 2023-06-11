@@ -39,6 +39,10 @@ const login = () => {
         // Przekieruj użytkownika do widoku userindex.vue
         router.push('/AdminIndex');
       }
+      if (role === 'is_Dentists') {
+        // Przekieruj użytkownika do widoku userindex.vue
+        router.push('/DentitsIndex');
+      }
     })
     .catch(error => {
       // Obsługa błędu logowania

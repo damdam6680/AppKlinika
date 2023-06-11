@@ -96,13 +96,13 @@ const router = createRouter({
         component: () => import('../views/User/MakeApoitment.vue')
       },
       {
-        path: '/test',
-        name: 'test',
+        path: '/DentitsIndex',
+        name: 'DentitsIndex',
 
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import('../views/test.vue')
+        component: () => import('../views/Dentits/DentitsIndex.vue')
       }
   ]
 })

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->time('visit_time');
             $table->time('visit_end');
             $table->text('description')->nullable();
+            $table->boolean('isAccepted')->default(false);
             $table->timestamps();
         });
     }

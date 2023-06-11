@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 //use App\Http\Controllers\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Patients;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -17,45 +18,49 @@ class AuthController extends Controller
      * @return User
      */
     public function createUser(Request $request)
-    {
-        try {
-            //Validated
-            $validateUser = Validator::make($request->all(),
-            [
-                'name' => 'required',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required',
-                'role' => 'required',
-            ]);
+{
+    try {
+        // Validacja danych użytkownika
+        $validateUser = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required',
+        ]);
 
-            if($validateUser->fails()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
-            }
-
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role' => $request->role,
-            ]);
-
-            return response()->json([
-                'status' => true,
-                'message' => 'User Created Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
-            ], 200);
-
-        } catch (\Throwable $th) {
+        if ($validateUser->fails()) {
             return response()->json([
                 'status' => false,
-                'message' => $th->getMessage()
-            ], 500);
+                'message' => 'Validation error',
+                'errors' => $validateUser->errors()
+            ], 401);
         }
+
+        // Utworzenie użytkownika
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Utworzenie pacjenta z ID utworzonego użytkownika
+        $patient = Patients::create([
+            'user_id' => $user->id,
+            // Dodaj inne pola pacjenta
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'User and patient created successfully',
+            'token' => $user->createToken("API TOKEN")->plainTextToken
+        ], 200);
+
+    } catch (\Throwable $th) {
+        return response()->json([
+            'status' => false,
+            'message' => $th->getMessage()
+        ], 500);
     }
+}
 
     /**
      * Login The User
