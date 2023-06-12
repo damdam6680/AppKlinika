@@ -15,8 +15,14 @@ class Appointments extends Model
         'visit_time',
         'description',
     ];
-    public function treatments()
+    public function patient()
     {
-        return $this->belongsTo(Treatments::class);
+        return $this->belongsTo(Patients::class, 'patient_id');
     }
+
+    public function treatment()
+    {
+        return $this->belongsTo(Treatments::class, 'treatmets_id');
+    }
+
 }

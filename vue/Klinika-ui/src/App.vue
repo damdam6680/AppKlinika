@@ -6,7 +6,7 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
 
 
-<main class=" mx-auto h-screen bg-gray-100">
+<main class=" mx-auto h-screen">
     <RouterView />
 </main>
 

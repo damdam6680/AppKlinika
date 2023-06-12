@@ -1,9 +1,17 @@
 <template>
-    <Qalendar :events="events" />
+    <navbar></navbar>
+    <sidebar></sidebar>
+
+
+    <div class="p-4 sm:ml-64">
+        <Qalendar :events="events" />
+    </div>
+
+
   </template>
 
   <script>
-  import { Qalendar } from "qalendar";
+   import { Qalendar } from "qalendar";
   import axios from "axios";
 
   export default {
@@ -26,7 +34,7 @@
         const token = localStorage.getItem('token');
 
         axios
-          .get("http://127.0.0.1:8000/api/appointments", {
+          .get("http://127.0.0.1:8000/api/appointments/calendar", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -34,16 +42,18 @@
           .then((response) => {
             console.log(response.data); // Wyświetlenie danych w konsoli
 
-            if (response.data && response.data.data && Array.isArray(response.data.data)) {
-              this.events = response.data.data.map((appointment) => {
+            if (response.data && Array.isArray(response.data)) {
+              this.events = response.data.map((appointment) => {
+                let color = appointment.isAccepted === 1 ? 'green' : 'red';
+
                 return {
-                  title: 'zabieg',
-                  with: 'Chandler Bing',
+                  title: appointment.treatment ? appointment.treatment.treatment_name : 'Brak nazwy zabiegu',
+                  with: appointment.patient ? `${appointment.patient.first_name} ${appointment.patient.last_name}` : 'Brak danych pacjenta',
                   time: {
                     start: this.formatDateTime(appointment.visit_date, appointment.visit_time),
                     end: this.formatDateTime(appointment.visit_date, appointment.visit_end),
                   },
-                  color: 'green',
+                  color: color,
                   isEditable: false,
                   id: appointment.id.toString(),
                   description: appointment.description,
@@ -66,7 +76,10 @@
     },
   };
   </script>
-
+    <script setup>
+          import navbar from '../navbar.vue';
+          import sidebar from './DentsiSidebar.vue';
+    </script>
   <style>
   @import "qalendar/dist/style.css";
   </style>
