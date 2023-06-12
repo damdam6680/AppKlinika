@@ -18,8 +18,6 @@ class AppointmentsController extends Controller
     {
 
         //$this->authorize('create-delete-user');
-
-
         $perPage = 10; // liczba rekordów na stronę
         $appointments = Appointments::where('dentist_id', $patient->id)->paginate($perPage);
 
@@ -51,7 +49,35 @@ class AppointmentsController extends Controller
 
     return response()->json($appointments);
     }
+    public function AppotemtsForDoctor(){
+            $user = Auth::user();
+            $dentist = Dentists::where('user_id', $user->id)->firstOrFail();
 
+            $perPage = 10; // liczba rekordów na stronę
+            $appointments = Appointments::with('patient:id,first_name,last_name', 'treatment:id,treatment_name')
+                ->where('dentist_id', $dentist->id)
+                ->paginate($perPage);
+
+            $response = [
+                'data' => $appointments->items(),
+                'links' => [
+                    'first_page_url' => $appointments->url(1),
+                    'last_page_url' => $appointments->url($appointments->lastPage()),
+                    'prev_page_url' => $appointments->previousPageUrl(),
+                    'next_page_url' => $appointments->nextPageUrl(),
+                ],
+                'meta' => [
+                    'current_page' => $appointments->currentPage(),
+                    'from' => $appointments->firstItem(),
+                    'to' => $appointments->lastItem(),
+                    'per_page' => $appointments->perPage(),
+                    'total' => $appointments->total(),
+                ],
+            ];
+
+            return response()->json($response);
+
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -106,7 +132,7 @@ class AppointmentsController extends Controller
      */
     public function edit(Appointments $appointments)
     {
-        //
+
     }
 
     /**

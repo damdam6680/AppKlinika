@@ -230,10 +230,10 @@ height: 100%;
   <div id="app">
     <div>
       <Wizard
-        squared-tabs
-        card-background
+
+
         navigable-tabs
-        scrollable-tabs
+        vertical-tabs
         :nextButton="nextButtonOptions"
         :custom-tabs="[
           {
@@ -309,7 +309,7 @@ height: 100%;
         </div>
 
         <div v-if="currentTabIndex === 1">
-          <div class="mx-auto flex-1 p-3">
+          <div class="mx-auto flex-1 ">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
               <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

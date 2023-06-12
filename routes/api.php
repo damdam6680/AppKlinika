@@ -48,6 +48,8 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::apiResource('dentists', DentistsController::class);
     //Route::apiResource('appointments', AppointmentsController::class);
     Route::get('/appointments/calendar', [AppointmentsController::class, 'calendar']);
+    Route::get('/appointments/AppotemtsForDoctor', [AppointmentsController::class, 'AppotemtsForDoctor']);
+
     Route::get('patients/me', [PatientsController::class, 'show']);
     Route::apiResource('user',UserController::class);
     Route::apiResource('treatments',TreatmentsController::class);
