@@ -24,23 +24,29 @@ class UpdateAppointmentsRequest extends FormRequest
      */
     public function rules()
     {
-         $method = $this->method();
-        if($method == "PUT"){
-        return [
-            'patient_id' => 'required|integer|unique:appointments,patient_id',
-            'dentist_id' => 'required|integer|unique:appointments,dentist_id',
-            'visit_date' => 'required|date',
-            'visit_time' => 'required|date_format:H:i',
-            'description' => 'required',
-        ];
-    }else{
-        return [
-            'patient_id' => 'sometimes|required|integer|unique:appointments,patient_id',
-            'dentist_id' => 'sometimes|required|integer|unique:appointments,dentist_id',
-            'visit_date' => 'sometimes|required|date',
-            'visit_time' => 'sometimes|required|date_format:H:i',
-            'description' => 'sometimes|required',
-        ];
-    }
+        $method = $this->method();
+        if ($method == "PUT") {
+            return [
+                'patient_id' => 'required|integer|unique:appointments,patient_id',
+                'dentist_id' => 'required|integer|unique:appointments,dentist_id',
+                'treatments_id' => 'required|integer|unique:appointments,treatments_id',
+                'visit_date' => 'required|date',
+                'visit_time' => 'required|date_format:H:i',
+                'visit_end' => 'required|date_format:H:i',
+                'description' => 'required',
+                'isAccepted' => 'required|boolean',
+            ];
+        } else {
+            return [
+                'patient_id' => 'sometimes|required|integer|unique:appointments,patient_id',
+                'dentist_id' => 'sometimes|required|integer|unique:appointments,dentist_id',
+                'treatments_id' => 'sometimes|required|integer|unique:appointments,treatments_id',
+                'visit_date' => 'sometimes|required|date',
+                'visit_time' => 'sometimes|required|date_format:H:i',
+                'visit_end' => 'sometimes|required|date_format:H:i',
+                'description' => 'sometimes|required',
+                'isAccepted' => 'sometimes|required|boolean',
+            ];
+        }
     }
 }

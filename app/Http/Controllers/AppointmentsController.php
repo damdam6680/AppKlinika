@@ -19,7 +19,8 @@ class AppointmentsController extends Controller
 
         //$this->authorize('create-delete-user');
         $perPage = 10; // liczba rekordów na stronę
-        $appointments = Appointments::where('dentist_id', $patient->id)->paginate($perPage);
+        $appointments = Appointments::with('patient:id,first_name,last_name', 'treatment:id,treatment_name','dentist:id,last_name')
+        ->paginate($perPage);
 
         $response = [
             'data' => $appointments->items(),
@@ -130,9 +131,17 @@ class AppointmentsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Appointments $appointments)
+    public function edit(UpdateAppointmentsRequest $request, $id)
     {
+        $user = Appointments::findOrFail($id);
 
+        // Zaktualizuj dane użytkownika
+        $user->isAccepted = $request->input('isAccepted');
+
+        $user->save();
+
+        // Zwróć odpowiedź JSON z zaktualizowanymi danymi użytkownika
+        return response()->json($user);
     }
 
     /**
@@ -140,11 +149,15 @@ class AppointmentsController extends Controller
      */
     public function update(UpdateAppointmentsRequest $request, $id)
     {
-        $patients = Appointments::findOrFail($id);
-        $patients->update($request->all());
-        $patients->save();
+        $appointment = Appointments::findOrFail($id);
 
-        return response()->json($patients);
+    // Aktualizuj wartość pola isAccepted na podstawie żądania
+        $appointment->isAccepted = $request->input('isAccepted');
+
+        $appointment->save();
+
+    // Zwróć odpowiedź JSON z zaktualizowanymi danymi wizyty
+        return response()->json($appointment);
     }
 
     /**

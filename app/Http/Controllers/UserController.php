@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Dentist;
+
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Dentists;
+
 class UserController extends Controller
 {
     public function index()
@@ -35,9 +39,35 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function createDentist(Request $request)
     {
-        //
+
+
+    // Pobierz dane z żądania
+        $data = $request->only(['name', 'email', 'password']);
+
+        // Utwórz nowy obiekt użytkownika na podstawie danych
+        $user = new User();
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = bcrypt($data['password']);
+        $user->role = 'is_Dentist';
+
+        // Zapisz użytkownika w bazie danych
+        $user->save();
+
+        $patient = Dentists::create([
+            'user_id' => $user->id,
+            // Dodaj inne pola pacjenta
+        ]);
+
+        // Zapisz dentystę w bazie danych
+
+
+        // Zwróć odpowiedź JSON z potwierdzeniem utworzenia użytkownika
+         return response()->json(['message' => 'User was created'], 201);
+
+
     }
 
     /**

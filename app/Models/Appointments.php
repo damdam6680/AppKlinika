@@ -24,5 +24,9 @@ class Appointments extends Model
     {
         return $this->belongsTo(Treatments::class, 'treatmets_id');
     }
+    public function dentist()
+    {
+        return $this->belongsTo(Dentists::class, 'dentist_id');
+    }
 
 }

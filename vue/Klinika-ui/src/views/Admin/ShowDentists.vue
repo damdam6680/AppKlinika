@@ -87,9 +87,7 @@ const fetchUsers = async (url) => {
     pagination.value = response.data.links;
 
     // Pobierz wartości email dla każdego dentysty
-    response.data.data.forEach((dentist) => {
-      emails.value[dentist.id] = dentist.user.email;
-    });
+
   } catch (error) {
     console.error(error);
   }

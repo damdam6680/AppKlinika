@@ -23,32 +23,26 @@ use App\Http\Controllers\User;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-// Route::group(['middleware' => ['user'],], function () {
-//     // Trasy dla zalogowanych użytkowników
-// });
-
-// // Trasy wymagające roli administratora
-// Route::group(['namespace' => 'App\Http\Controllers'], function () {
-//     Route::apiResource('patients', PatientsController::class);
-//     Route::apiResource('dentists', DentistsController::class);
-//     Route::apiResource('user',UserController::class);
-// });
-
-// Route::any('admin/access/denied', function () {
-//     return response()->json(['error' => 'Access denied for admin'], 403);
-// })->name('admin.access.denied');
 
 
 Route::middleware('auth:sanctum')->group(function(){
+
     Route::apiResource('patients', PatientsController::class);
-    Route::apiResource('dentists', DentistsController::class);
+
+
+    Route::patch('dentists/updateDentist', [DentistsController::class, 'updateDentist']);
+    Route::get('dentists', [DentistsController::class, 'index']);
+
     //Route::apiResource('appointments', AppointmentsController::class);
     Route::get('/appointments/calendar', [AppointmentsController::class, 'calendar']);
     Route::get('/appointments/AppotemtsForDoctor', [AppointmentsController::class, 'AppotemtsForDoctor']);
+
+
+    Route::patch('/appointments/{id}', [AppointmentsController::class, 'update']);
+    Route::get('/appointments', [AppointmentsController::class, 'index']);
+
+    Route::post('/appointments/createDentist', [UserController::class, 'createDentist']);
+
 
     Route::get('patients/me', [PatientsController::class, 'show']);
     Route::apiResource('user',UserController::class);

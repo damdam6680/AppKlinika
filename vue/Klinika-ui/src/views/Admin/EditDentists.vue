@@ -24,55 +24,5 @@
   </template>
 
   <script setup>
-  import { ref, onMounted } from 'vue';
-  import axios from 'axios';
-  import { useRoute, useRouter } from 'vue-router';
-  import Sidebar from '../sidebar.vue';
 
-  const user = ref({
-    first_name: '',
-    last_name: '',
-    specialization: '',
-    phone_number: ''
-  });
-  const route = useRoute();
-  const router = useRouter();
-
-  const fetchUser = async () => {
-    const token = localStorage.getItem('token');
-    const userId = route.params.userId;
-
-    try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/dentists/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      user.value = response.data;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const updateUser = async () => {
-    const token = localStorage.getItem('token');
-    const userId = route.params.userId;
-
-    try {
-      await axios.put(`http://127.0.0.1:8000/api/dentists/${userId}`, user.value, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      router.push('/ShowDentists');
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  onMounted(async () => {
-    await fetchUser();
-  });
   </script>

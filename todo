@@ -3,9 +3,14 @@ dodac price w thretments
 dodac zabezpieczeni do route na podstawie roli
 
 
-dodac wszedzie crud
-dodac kalnedarz
-
-
-jutro dodać
-jutro dodać dodawanie apoitments dla pacjentów
+dokonczyc admina
+dodac dodawanie dentysty
+walidacjia
+nazwy itp
+przyciski
+poprawic logowanie zeby niszczył token
+blokowanie routów
+poprawic tabelki
+dodac walidacjie która sprawdza czy nie jest data nie dodane w przeszłość
+i godzina jest w przeszłowsci
+usuwanie

@@ -33,10 +33,10 @@ class UpdateDentistsRequest extends FormRequest
         } else {
             return [
                 'user_id' => ['sometimes', 'required'],
-                'first_name' => ['required', 'string', 'max:50'],
-                'last_name' => ['required', 'string', 'max:50'],
-                'specialization' => ['required', 'string', 'max:50'],
-                'phone_number' => ['required', 'string', 'max:20'],
+                'first_name' => ['sometimes','required', 'string', 'max:50'],
+                'last_name' => ['sometimes','required', 'string', 'max:50'],
+                'specialization' => ['sometimes','required', 'string', 'max:50'],
+                'phone_number' => ['sometimes','required', 'string', 'max:20'],
             ];
         }
 

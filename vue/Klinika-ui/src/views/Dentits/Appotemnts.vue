@@ -51,7 +51,7 @@ export default {
     acceptAppointment(appointment) {
       const token = localStorage.getItem('token');
 
-      axios.put(`http://127.0.0.1:8000/api/appointments/${appointment.id}`, { isAccepted: 1 }, {
+      axios.patch(`http://127.0.0.1:8000/api/appointments/${appointment.id}`, { isAccepted: 1 }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -83,9 +83,7 @@ export default {
               <th scope="col" class="px-6 py-3">
                 Name
               </th>
-              <th scope="col" class="px-6 py-3">
-                Last Name
-              </th>
+
               <th scope="col" class="px-6 py-3">
                 Treatment Name
               </th>
@@ -99,6 +97,9 @@ export default {
                 Visit End
               </th>
               <th scope="col" class="px-6 py-3">
+                Status
+              </th>
+              <th scope="col" class="px-6 py-3">
                 Actions
               </th>
             </tr>
@@ -107,9 +108,6 @@ export default {
             <tr v-for="appointment in appointments" :key="appointment.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
               <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {{ appointment.patient ? `${appointment.patient.first_name} ${appointment.patient.last_name}` : 'Brak danych pacjenta' }}
-              </td>
-              <td class="px-6 py-4">
-                {{ appointment.patient ? appointment.patient.last_name : 'Brak danych pacjenta' }}
               </td>
               <td class="px-6 py-4">
                 {{ appointment.treatment ? appointment.treatment.treatment_name : 'Brak nazwy zabiegu' }}
@@ -124,8 +122,11 @@ export default {
                 {{ appointment.visit_end }}
               </td>
               <td class="px-6 py-4">
-                <button v-if="!appointment.isAccepted" @click="acceptAppointment(appointment)" class="px-3 py-2 text-xs font-medium leading-4 text-white bg-green-600 hover:bg-green-700 rounded-lg">Akceptuj</button>
-                <span v-else class="text-green-600">Zaakceptowane</span>
+                {{ appointment.isAccepted }}
+              </td>
+              <td class="px-6 py-4">
+                <button v-if="!appointment.isAccepted" @click="acceptAppointment(appointment)" class="px-3 py-2 text-xs font-medium leading-4 text-white bg-green-600 hover:bg-green-700 rounded-lg">Akcept</button>
+                <span v-else class="text-green-600">Akcepted</span>
               </td>
             </tr>
           </tbody>

@@ -112,6 +112,33 @@ const router = createRouter({
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () => import('../views/Dentits/Appotemnts.vue')
+      },
+      {
+        path: '/ShowAppotments',
+        name: 'ShowAppotments',
+
+        // route level code-splitting
+        // this generates a separate chunk (About.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('../views/Admin/ShowAppotments.vue')
+      },
+      {
+        path: '/AddDentis',
+        name: 'AddDentis',
+
+        // route level code-splitting
+        // this generates a separate chunk (About.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('../views/Admin/AddDentis.vue')
+      },
+      {
+        path: '/EditDentist',
+        name: 'EditDentist',
+
+        // route level code-splitting
+        // this generates a separate chunk (About.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('../views/Dentits/EditDentist.vue')
       }
   ]
 })

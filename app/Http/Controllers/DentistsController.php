@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\Dentists;
 use App\Http\Requests\StoreDentistsRequest;
 use App\Http\Requests\UpdateDentistsRequest;
@@ -86,6 +86,17 @@ class DentistsController extends Controller
         return response()->json($dentists);
     }
 
+
+    public function updateDentist(UpdateDentistsRequest $request)
+    {
+        $user = Auth::user();
+        $patients = Dentists::with('user')->findOrFail($user->id);
+        $patients -> update($request->all());
+
+        $patients->save();
+
+        return response()->json($patients);
+    }
     /**
      * Remove the specified resource from storage.
      */
