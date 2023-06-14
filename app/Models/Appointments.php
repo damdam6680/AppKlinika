@@ -14,6 +14,7 @@ class Appointments extends Model
         'visit_date',
         'visit_time',
         'description',
+        'price'
     ];
     public function patient()
     {

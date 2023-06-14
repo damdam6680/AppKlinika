@@ -1,6 +1,6 @@
 <template>
     <Sidebar></Sidebar>
-    <div class="p-4 sm:ml-64">
+    <div class="p-4 sm:ml-64 max-w-screen-2xl">
       <form class="p-10" @submit.prevent="updateUser">
         <div class="mb-6">
           <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
@@ -23,7 +23,7 @@
   import { ref, onMounted } from 'vue';
   import axios from 'axios';
   import { useRoute, useRouter } from 'vue-router'; // Importuj useRoute i useRouter z vue-router
-  import Sidebar from '../sidebar.vue';
+  import Sidebar from './sidebar.vue';
 
   const user = ref({ email: '', name: '', role: '' });
   const route = useRoute(); // Użyj useRoute do uzyskania dostępu do obiektu $route

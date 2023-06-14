@@ -18,7 +18,7 @@ class PatientsController extends Controller
      */
     public function index()
     {
-       // $this->authorize('create-delete-user');
+       //s $this->authorize('create-delete-user');
         $perPage = 10; // liczba rekordów na stronę
         $patients = Patients::with('user')->paginate($perPage);
 
@@ -63,7 +63,7 @@ class PatientsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function showMe()
     {
 
         $user = Auth::user();
@@ -71,6 +71,13 @@ class PatientsController extends Controller
         $patient = Patients::with('user')->findOrFail($user->id);
 
         return response()->json($patient);
+    }
+    public function show($id)
+    {
+
+        $patients = Patients::findOrFail($id);
+
+        return response()->json($patients);
     }
 
     /**
@@ -84,7 +91,17 @@ class PatientsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePatientsRequest $request)
+    public function update(UpdatePatientsRequest $request, $id)
+    {
+        $dentists = Patients::findOrFail($id);
+        $dentists -> update($request->all());
+
+        $dentists->save();
+
+        return response()->json($dentists);
+    }
+
+    public function updateMe(UpdatePatientsRequest $request)
     {
         $user = Auth::user();
         $patients = Patients::with('user')->findOrFail($user->id);

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->time('visit_end');
             $table->text('description')->nullable();
             $table->boolean('isAccepted')->default(false);
+            $table->decimal('price', 8, 2);
             $table->timestamps();
         });
     }

@@ -31,7 +31,7 @@ const updateUser = async () => {
      // Odczytaj parametr userId z obiektu route
 
     try {
-      await axios.put(`http://127.0.0.1:8000/api/patients/me`, user.value, {
+      await axios.put(`http://127.0.0.1:8000/api/patients/updateMe`, user.value, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

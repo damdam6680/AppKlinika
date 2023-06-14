@@ -114,6 +114,7 @@ class AppointmentsController extends Controller
         $appointment->visit_time = $visitTime;
         $appointment->visit_end = $visitEndTime;
         $appointment->patient_id = $patient->id;
+
         $appointment->save();
 
         return response()->json($appointment);

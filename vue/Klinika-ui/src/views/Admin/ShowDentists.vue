@@ -1,6 +1,6 @@
 <template>
     <Sidebar></Sidebar>
-    <div class="p-4 sm:ml-64">
+    <div class="p-4 sm:ml-64 max-w-screen-2xl">
       <div class="mx-auto flex-1 p-3">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -67,7 +67,7 @@
   <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import Sidebar from '../sidebar.vue';
+import Sidebar from './sidebar.vue';
 
 const users = ref([]);
 const emails = ref({});
@@ -87,7 +87,9 @@ const fetchUsers = async (url) => {
     pagination.value = response.data.links;
 
     // Pobierz wartości email dla każdego dentysty
-
+    response.data.data.forEach((dentist) => {
+      emails.value[dentist.id] = dentist.user.email;
+    });
   } catch (error) {
     console.error(error);
   }

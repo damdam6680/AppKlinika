@@ -32,6 +32,7 @@ class StoreAppointmentsRequest extends FormRequest
             'visit_time' =>  ['required'],
             'description' =>  ['required'],
             'visit_end' => ['required'],
+            'price' => ['required']
         ];
     }
     protected function prepareForValidation()

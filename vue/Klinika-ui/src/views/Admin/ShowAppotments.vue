@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import Sidebar from '../sidebar.vue';
+import Sidebar from './sidebar.vue';
 
 const appointments = ref([]);
 const pagination = ref({});
@@ -31,7 +31,7 @@ onMounted(() => {
 
 <template>
   <Sidebar></Sidebar>
-  <div class="p-4 sm:ml-64">
+  <div class="p-4 sm:ml-64 max-w-screen-2xl">
     <div class="mx-auto flex-1 p-3">
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -61,7 +61,6 @@ onMounted(() => {
                 {{ appointment.treatment.treatment_name }}
               </td>
               <td class="px-6 py-4 flex items-center">
-                <router-link :to="{ name: 'EditUsers', params: { userId: appointment.id } }" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</router-link>
                 <button @click="deleteUser(appointment.id)" class="ml-4 px-3 py-2 text-xs font-medium leading-4 text-white bg-red-600 hover:bg-red-700 rounded-lg">Delete</button>
               </td>
             </tr>

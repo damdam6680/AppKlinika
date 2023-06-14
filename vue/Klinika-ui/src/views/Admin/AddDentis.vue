@@ -1,6 +1,6 @@
 <template>
     <Sidebar></Sidebar>
-    <div class="p-4 sm:ml-64">
+    <div class="p-4 sm:ml-64 max-w-screen-2xl">
         <form class="p-10" @submit.prevent="createDentist">
           <div class="mb-6">
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
@@ -20,7 +20,7 @@
   </template>
 
   <script setup>
-  import Sidebar from '../sidebar.vue';
+  import Sidebar from './sidebar.vue';
   import { ref } from 'vue';
   import axios from 'axios';
 

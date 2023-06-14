@@ -1,16 +1,29 @@
 usunąc patient__tritments
-dodac price w thretments
-dodac zabezpieczeni do route na podstawie roli
+
 
 
 dokonczyc admina
-dodac dodawanie dentysty
+-dodac crud dla tretments
+-usuwanie
+
+
+dokonczy user
+-graficzna poprawa appotemntes
+-wpis wszystki dentystów
+-dodac tabelke appotments
+
 walidacjia
-nazwy itp
-przyciski
-poprawic logowanie zeby niszczył token
-blokowanie routów
-poprawic tabelki
-dodac walidacjie która sprawdza czy nie jest data nie dodane w przeszłość
+-blokowanie routów
+-dodac walidacjie która sprawdza czy nie jest data nie dodane w przeszłość
 i godzina jest w przeszłowsci
-usuwanie
+-poprawic logowanie zeby niszczył token
+
+
+nazwy itp
+
+
+
+
+
+
+dodac zabezpieczeni do route na podstawie roli

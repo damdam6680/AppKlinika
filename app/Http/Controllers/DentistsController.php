@@ -90,12 +90,12 @@ class DentistsController extends Controller
     public function updateDentist(UpdateDentistsRequest $request)
     {
         $user = Auth::user();
-        $patients = Dentists::with('user')->findOrFail($user->id);
-        $patients -> update($request->all());
+        $dentist = Dentists::where('user_id', $user->id)->firstOrFail();
 
-        $patients->save();
+        $dentist->update($request->all());
+        $dentist->save();
 
-        return response()->json($patients);
+        return response()->json($dentist);
     }
     /**
      * Remove the specified resource from storage.

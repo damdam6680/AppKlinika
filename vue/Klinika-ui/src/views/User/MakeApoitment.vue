@@ -50,6 +50,7 @@ export default {
             visit_time: this.selectedTime,
             visit_end: this.formattedTime,
             description: this.appointmentDescription,
+            price: selectedTreatment.value.price,
   };
 
 
@@ -59,6 +60,7 @@ export default {
   console.log(appointmentData.visit_time);
   console.log(appointmentData.visit_end);
   console.log(appointmentData.description);
+  console.log(appointmentData.price);
 
   const token = localStorage.getItem('token');
   const config = {
