@@ -11,7 +11,8 @@ class UpdateTreatmentsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        // Ustaw zgodność z odpowiednimi regułami autoryzacji (np. sprawdzanie uprawnień użytkownika)
+        return true;
     }
 
     /**
@@ -22,7 +23,12 @@ class UpdateTreatmentsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'treatment_name' => 'required|string',
+            'description' => 'required|string',
+            'waiting_time' => 'required|date_format:H:i:s',
+            'price' => 'required|numeric',
+
         ];
     }
 }
+

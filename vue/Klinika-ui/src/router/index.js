@@ -69,7 +69,7 @@ const router = createRouter({
 
       },
       {
-        path: '/EditDentists/:userId',
+        path: '/EditDentists',
         name: 'EditDentists',
 
         // route level code-splitting
@@ -157,6 +157,24 @@ const router = createRouter({
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () => import('../views/Admin/EditPatients.vue')
+      },
+      {
+        path: '/ShowTretments',
+        name: 'ShowTretments',
+
+        // route level code-splitting
+        // this generates a separate chunk (About.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('../views/Admin/ShowTretments.vue')
+      },
+      {
+        path: '/EditTreatments/:userId',
+        name: 'EditTreatments',
+
+        // route level code-splitting
+        // this generates a separate chunk (About.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('../views/Admin/EditTreatments.vue')
       }
   ]
 })

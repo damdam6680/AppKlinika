@@ -54,9 +54,11 @@ class TreatmentsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Treatments $treatments)
+    public function show($id)
     {
-        //
+        $patients = Treatments::findOrFail($id);
+
+        return response()->json($patients);
     }
 
     /**
@@ -70,9 +72,14 @@ class TreatmentsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTreatmentsRequest $request, Treatments $treatments)
+    public function update(UpdateTreatmentsRequest $request, $id)
     {
-        //
+        $dentists = Treatments::findOrFail($id);
+        $dentists -> update($request->all());
+
+        $dentists->save();
+
+        return response()->json($dentists);
     }
 
     /**

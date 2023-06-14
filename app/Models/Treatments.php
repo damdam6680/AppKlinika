@@ -15,7 +15,7 @@ class Treatments extends Model
         'treatment_name', // nazwa zabiegu
         'description', // opis zabiegu
         'price', // cena zabiegu
-
+        'waiting_time'
     ];
 
 
