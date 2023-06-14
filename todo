@@ -1,16 +1,12 @@
-usunąc patient__tritments
 
+dodac tabelke na głownej stronie z prices
 
+poprawic bledy jezykowe
 
 dokonczyc admina
 -usuwanie
 -wykres
 
-
-dokonczy user
--graficzna poprawa appotemntes
--wpis wszystki dentystów
--dodac tabelke appotments
 
 walidacjia
 -blokowanie routów
@@ -18,6 +14,5 @@ walidacjia
 i godzina jest w przeszłowsci
 -poprawic logowanie zeby niszczył token
 
-nazwy itp
 
-dodac zabezpieczeni do route na podstawie roli
+naprawic bład w edit dentis

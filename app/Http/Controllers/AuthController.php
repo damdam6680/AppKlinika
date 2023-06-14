@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Validator;
 //use App\Http\Controllers\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Models\Patients;
+use App\Models\Patient;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -43,7 +43,7 @@ class AuthController extends Controller
         ]);
 
         // Utworzenie pacjenta z ID utworzonego użytkownika
-        $patient = Patients::create([
+        $patient = Patient::create([
             'user_id' => $user->id,
             // Dodaj inne pola pacjenta
         ]);

@@ -81,7 +81,7 @@
             Authorization: `Bearer ${token}`,
           },
         });
-        router.push('/ShowPatients');
+        router.push('/show/users');
       } catch (error) {
         console.error(error);
       }

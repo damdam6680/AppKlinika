@@ -44,10 +44,10 @@
 
             if (response.data && Array.isArray(response.data)) {
               this.events = response.data.map((appointment) => {
-                let color = appointment.isAccepted === 1 ? 'green' : 'red';
+                let color = appointment.Accepted === 1 ? 'green' : 'red';
 
                 return {
-                  title: appointment.treatment ? appointment.treatment.treatment_name : 'Brak nazwy zabiegu',
+                  title: appointment.treatment ? appointment.treatment.name : 'Brak nazwy zabiegu',
                   with: appointment.patient ? `${appointment.patient.first_name} ${appointment.patient.last_name}` : 'Brak danych pacjenta',
                   time: {
                     start: this.formatDateTime(appointment.visit_date, appointment.visit_time),

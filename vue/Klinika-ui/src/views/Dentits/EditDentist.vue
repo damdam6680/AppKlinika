@@ -51,7 +51,7 @@ const updateUser = async () => {
     };
 
     // Send the PATCH request
-    const response = await axios.patch('http://127.0.0.1:8000/api/dentists/updateDentist', data, {
+    const response = await axios.patch('http://127.0.0.1:8000/api/dentists/update', data, {
       headers: {
         Authorization: `Bearer ${token}`
       }

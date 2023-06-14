@@ -59,7 +59,7 @@
         },
       });
 
-      router.push('/ShowTretments');
+      router.push('/show/tretments');
     } catch (error) {
       console.error(error);
     }

@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Dentist;
+
 
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\Dentists;
+use App\Models\Dentist;
 
 class UserController extends Controller
 {
@@ -56,7 +56,7 @@ class UserController extends Controller
         // Zapisz użytkownika w bazie danych
         $user->save();
 
-        $patient = Dentists::create([
+        $patient = Dentist::create([
             'user_id' => $user->id,
             // Dodaj inne pola pacjenta
         ]);

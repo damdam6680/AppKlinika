@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     {
         User::factory()->count(50)->state(function (array $attributes) {
             return [
-                'role' => 'is_User',
+                'role' => 'user',
             ];
         })->create();
 
@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
         ->count(50)
         ->state(function (array $attributes) {
             return [
-                'role' => 'is_Dentists',
+                'role' => 'dentist',
             ];
         })
         ->create();
@@ -37,57 +37,10 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin123@example.com',
             'password' => bcrypt('password'),
-            'role' => 'is_admin',
+            'role' => 'admin',
         ]);
 
 
-        User::create([
-            'name' => 'user1',
-            'email' => 'user1@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'is_User',
-        ]);
 
-        User::create([
-            'name' => 'user4',
-            'email' => 'user4@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'is_User',
-        ]);
-
-        User::create([
-            'name' => 'user123',
-            'email' => 'user123@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'is_User',
-        ]);
-
-        User::create([
-            'name' => 'user1234',
-            'email' => 'user1234@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'is_User',
-        ]);
-
-        User::create([
-            'name' => 'user6',
-            'email' => 'user6@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'is_Dentists',
-        ]);
-
-        User::create([
-            'name' => 'user5',
-            'email' => 'user2@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'is_Dentists',
-        ]);
-
-        User::create([
-            'name' => 'user3',
-            'email' => 'user3@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'is_Dentists',
-        ]);
     }
 }

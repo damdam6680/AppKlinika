@@ -34,7 +34,7 @@
     const userId = route.params.userId; // Odczytaj parametr userId z obiektu route
 
     try {
-      const response = await axios.get(`http://127.0.0.1:8000/api/user/${userId}`, {
+      const response = await axios.get(`http://127.0.0.1:8000/api/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -52,14 +52,14 @@
     const userId = route.params.userId; // Odczytaj parametr userId z obiektu route
 
     try {
-      await axios.put(`http://127.0.0.1:8000/api/user/${userId}`, user.value, {
+      await axios.put(`http://127.0.0.1:8000/api/users/${userId}`, user.value, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       // Przekieruj użytkownika do innej ścieżki po zaktualizowaniu danych
-      router.push('/ShowUsers');
+      router.push('/show/users');
     } catch (error) {
       console.error(error);
     }

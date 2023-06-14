@@ -26,7 +26,7 @@ const router = createRouter({
       component: () => import('../views/auth/LoginIndex.vue')
     },
     {
-      path: '/PatientIndex',
+      path: '/patient/home',
       name: 'PatientIndex',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
@@ -34,7 +34,7 @@ const router = createRouter({
       component: () => import('../views/PatientIndex.vue')
     },
     {
-      path: '/AdminIndex',
+      path: '/admin/home',
       name: 'AdminIndex',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
@@ -42,7 +42,7 @@ const router = createRouter({
       component: () => import('../views/AdminIndex.vue')
     },
     {
-        path: '/ShowDentists',
+        path: '/show/dentists',
         name: 'ShowDentists',
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
@@ -50,7 +50,7 @@ const router = createRouter({
         component: () => import('../views/Admin/ShowDentists.vue')
       },
     {
-        path: '/ShowUsers',
+        path: '/show/users',
         name: 'ShowUsers',
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
@@ -58,7 +58,7 @@ const router = createRouter({
         component: () => import('../views/Admin/ShowUsers.vue')
       },
       {
-        path: '/EditUsers/:userId',
+        path: '/users/edit/:userId',
 
         name: 'EditUsers',
 
@@ -69,7 +69,7 @@ const router = createRouter({
 
       },
       {
-        path: '/EditDentists',
+        path: '/edit/dentists/:userId',
         name: 'EditDentists',
 
         // route level code-splitting
@@ -78,7 +78,7 @@ const router = createRouter({
         component: () => import('../views/Admin/EditDentists.vue')
       },
       {
-        path: '/EditPatientsData',
+        path: '/edit/patients/data',
         name: 'EditPatientsData',
 
         // route level code-splitting
@@ -87,16 +87,16 @@ const router = createRouter({
         component: () => import('../views/User/EditPatientsData.vue')
       },
       {
-        path: '/MakeApoitment',
-        name: 'MakeApoitment',
+        path: '/apoitment',
+        name: 'MakeAppointment',
 
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import('../views/User/MakeApoitment.vue')
+        component: () => import('../views/User/MakeAppointment.vue')
       },
       {
-        path: '/DentitsIndex',
+        path: '/dentits/home',
         name: 'DentitsIndex',
 
         // route level code-splitting
@@ -105,25 +105,25 @@ const router = createRouter({
         component: () => import('../views/Dentits/DentitsIndex.vue')
       },
       {
-        path: '/Appotemnts',
-        name: 'Appotemnts',
+        path: '/appointment',
+        name: 'appointment',
 
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import('../views/Dentits/Appotemnts.vue')
+        component: () => import('../views/Dentits/Appointment.vue')
       },
       {
-        path: '/ShowAppotments',
-        name: 'ShowAppotments',
+        path: '/show/appointments',
+        name: 'ShowAppointment',
 
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import('../views/Admin/ShowAppotments.vue')
+        component: () => import('../views/Admin/ShowAppointment.vue')
       },
       {
-        path: '/AddDentis',
+        path: '/add/dentis',
         name: 'AddDentis',
 
         // route level code-splitting
@@ -132,7 +132,7 @@ const router = createRouter({
         component: () => import('../views/Admin/AddDentis.vue')
       },
       {
-        path: '/EditDentist',
+        path: '/edit/dentist',
         name: 'EditDentist',
 
         // route level code-splitting
@@ -141,7 +141,7 @@ const router = createRouter({
         component: () => import('../views/Dentits/EditDentist.vue')
       },
       {
-        path: '/ShowPatients',
+        path: '/show/patients',
         name: 'ShowPatients',
 
         // route level code-splitting
@@ -150,7 +150,7 @@ const router = createRouter({
         component: () => import('../views/Admin/ShowPatients.vue')
       },
       {
-        path: '/EditPatients/:userId',
+        path: '/edit/patients/:userId',
         name: 'EditPatients',
 
         // route level code-splitting
@@ -159,7 +159,7 @@ const router = createRouter({
         component: () => import('../views/Admin/EditPatients.vue')
       },
       {
-        path: '/ShowTretments',
+        path: '/show/tretments',
         name: 'ShowTretments',
 
         // route level code-splitting
@@ -168,7 +168,7 @@ const router = createRouter({
         component: () => import('../views/Admin/ShowTretments.vue')
       },
       {
-        path: '/EditTreatments/:userId',
+        path: '/edit/treatments/:userId',
         name: 'EditTreatments',
 
         // route level code-splitting
@@ -177,13 +177,22 @@ const router = createRouter({
         component: () => import('../views/Admin/EditTreatments.vue')
       },
       {
-        path: '/AddTreatments',
+        path: '/add/treatments',
         name: 'AddTreatments',
 
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () => import('../views/Admin/AddTreatments.vue')
+      },
+      {
+        path: '/show/appointment/patient',
+        name: 'ShowAppotmentsForPatient',
+
+        // route level code-splitting
+        // this generates a separate chunk (About.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import('../views/User/ShowAppointmentsForPatient.vue')
       }
   ]
 })

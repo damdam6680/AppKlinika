@@ -35,7 +35,7 @@
       // Pobierz token z lokalnego magazynu (np. z localStorage lub Vuex)
       const token = localStorage.getItem('token');
 
-      const response = await axios.post('http://127.0.0.1:8000/api/appointments/createDentist', {
+      const response = await axios.post('http://127.0.0.1:8000/api/appointments/create', {
         name: user.value.name,
         email: user.value.email,
         password: user.value.password,

@@ -31,17 +31,17 @@ const login = () => {
       localStorage.setItem('id', id);
       // Sprawdź rolę użytkownika
       const role = response.data.role;
-      if (role === 'is_User') {
+      if (role === 'user') {
         // Przekieruj użytkownika do widoku userindex.vue
-        router.push('/PatientIndex');
+        router.push('/patient/home');
       }
-      if (role === 'is_admin') {
+      if (role === 'admin') {
         // Przekieruj użytkownika do widoku userindex.vue
-        router.push('/AdminIndex');
+        router.push('/admin/home');
       }
-      if (role === 'is_Dentists') {
+      if (role === 'dentist') {
         // Przekieruj użytkownika do widoku userindex.vue
-        router.push('/DentitsIndex');
+        router.push('/dentits/home');
       }
     })
     .catch(error => {
@@ -103,15 +103,7 @@ const login = () => {
 
                 <!-- Another Auth Routes -->
                 <div class="sm:flex sm:flex-wrap mt-8 sm:mb-4 text-sm text-center">
-                    <a href="#" class="flex-2 underline">
-                        Forgot password?
-                    </a>
-
-                    <p class="flex-1 text-gray-500 text-md mx-4 my-1 sm:my-auto">
-                        or
-                    </p>
-
-                    <a href="#" class="flex-2 underline">
+                    <a href="/register" class="flex-2 underline">
                         Create an Account
                     </a>
                 </div>

@@ -20,9 +20,9 @@ class User extends Authenticatable
 
     }
 
-    public function dentists()
+    public function dentist()
     {
-        return $this->hasMany(Patient::class);
+        return $this->haseOne(Dentist::class);
     }
 
     /**

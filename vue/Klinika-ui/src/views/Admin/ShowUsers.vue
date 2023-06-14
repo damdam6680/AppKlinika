@@ -89,21 +89,21 @@
         },
       });
       // Then delete the user
-      await axios.delete(`http://127.0.0.1:8000/api/user/${userId}`, {
+      await axios.delete(`http://127.0.0.1:8000/api/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       // Refresh the user list after deletion
-      await fetchUsers('http://127.0.0.1:8000/api/user');
+      await fetchUsers('http://127.0.0.1:8000/api/users');
     } catch (error) {
       console.error(error);
     }
   };
 
   onMounted(async () => {
-    const initialUrl = 'http://127.0.0.1:8000/api/user';
+    const initialUrl = 'http://127.0.0.1:8000/api/users';
 
     await fetchUsers(initialUrl);
   });

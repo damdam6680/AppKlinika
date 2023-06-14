@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Controllers\PatientsController;
-use App\Http\Controllers\AppointmentsController;
+use App\Http\Controllers\PatientController;
+use App\Http\Controllers\AppointmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\Patients;
-use App\Models\Appointments;
-use App\Http\Controllers\DentistsController;
-use App\Http\Controllers\TreatmentsController;
+use App\Models\Patient;
+use App\Models\Appointment;
+use App\Http\Controllers\DentistController;
+use App\Http\Controllers\TreatmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 
@@ -27,34 +27,37 @@ use App\Http\Controllers\User;
 
 Route::middleware('auth:sanctum')->group(function(){
 
-    Route::get('patients', [PatientsController::class, 'index']);
-    Route::get('patients/me', [PatientsController::class, 'showMe']);
-    Route::get('patients/{id}', [PatientsController::class, 'show']);
-    Route::put('patients/updateMe', [PatientsController::class, 'updateMe']);
-    Route::patch('patients/updateMe', [PatientsController::class, 'updateMe']);
-    Route::put('patients/{id}', [PatientsController::class, 'update']);
-    Route::patch('patients/{id}', [PatientsController::class, 'update']);
+    Route::get('patients', [PatientController::class, 'index']);
+    Route::get('patients/me', [PatientController::class, 'showMe']);
+    Route::get('patients/{id}', [PatientController::class, 'show']);
 
-    Route::get('dentists/{id}', [DentistsController::class, 'update']);
-    Route::patch('dentists/{id}', [DentistsController::class, 'show']);
-    Route::patch('dentists/updateDentist', [DentistsController::class, 'updateDentist']);
-    Route::get('dentists', [DentistsController::class, 'index']);
+    Route::put('patients/me', [PatientController::class, 'updateMe']);
+    Route::patch('patients/me', [PatientController::class, 'updateMe']);
 
-    //Route::apiResource('appointments', AppointmentsController::class);
-    Route::get('/appointments/calendar', [AppointmentsController::class, 'calendar']);
-    Route::get('/appointments/AppotemtsForDoctor', [AppointmentsController::class, 'AppotemtsForDoctor']);
-    Route::get('/appointments/AppotemtsForPacient', [AppointmentsController::class, 'AppotemtsForPacient']);
-    Route::patch('/appointments/{id}', [AppointmentsController::class, 'update']);
-    Route::get('/appointments', [AppointmentsController::class, 'index']);
-    Route::post('/appointments', [AppointmentsController::class, 'store']);
+    Route::put('patients/{id}', [PatientController::class, 'update']);
+    Route::patch('patients/{id}', [PatientController::class, 'update']);
 
-    Route::post('/appointments/createDentist', [UserController::class, 'createDentist']);
+    Route::get('dentists/{id}', [DentistController::class, 'update']);
+    Route::patch('dentists/{id}', [DentistController::class, 'show']);
+    Route::patch('dentists/update', [DentistController::class, 'updateDentist']);
+    Route::get('dentists', [DentistController::class, 'index']);
 
 
+    Route::get('/appointments/calendar', [AppointmentController::class, 'calendar']);
+    Route::get('/appointments/doctor', [AppointmentController::class, 'AppotemtsForDoctor']);
+    Route::get('/appointments/patient', [AppointmentController::class, 'AppotemtsForPacient']);
+    Route::get('/appointments/patient/list', [AppointmentController::class, 'AppotemtsForPacientList']);
+    Route::patch('/appointments/{id}', [AppointmentController::class, 'update']);
+    Route::get('/appointments', [AppointmentController::class, 'index']);
+    Route::post('/appointments', [AppointmentController::class, 'store']);
 
-    Route::apiResource('user',UserController::class);
-    Route::apiResource('treatments',TreatmentsController::class);
-    Route::post('treatments', [TreatmentsController::class, 'store']);
+    Route::post('/appointments/create', [UserController::class, 'createDentist']);
+
+
+
+    Route::apiResource('users',UserController::class);
+    Route::apiResource('treatments',TreatmentController::class);
+    Route::post('treatments', [TreatmentController::class, 'store']);
 
 });
 

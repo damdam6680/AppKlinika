@@ -23,7 +23,7 @@ return new class extends Migration
             $table->time('visit_time');
             $table->time('visit_end');
             $table->text('description')->nullable();
-            $table->boolean('isAccepted')->default(false);
+            $table->boolean('is_accepted')->default(false);
             $table->decimal('price', 8, 2);
             $table->timestamps();
         });

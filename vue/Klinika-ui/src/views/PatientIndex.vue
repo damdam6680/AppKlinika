@@ -36,13 +36,13 @@ const fetchAppotment = async () => {
   const token = localStorage.getItem('token');
 
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/appointments/AppotemtsForPacient', {
+    const response = await axios.get('http://127.0.0.1:8000/api/appointments/patient/list', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
-    appointments.value = response.data; // Assign the user ID to the ref
+    appointments.value = response.data.data; // Assign the user ID to the ref
     console.log(appointments.value);
 
   } catch (error) {
@@ -65,7 +65,7 @@ onMounted(() => {
 
 
 
-    <div class="bg-gray-100">
+    <div class="bg-gray-100 h-full">
 
 
            <div class="container mx-auto my-5 p-5">
@@ -78,12 +78,12 @@ onMounted(() => {
 
                            </div>
                            <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{user_name}}</h1>
-                           <a href="/MakeApoitment">
+                           <a href="/apoitment">
                             <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium my-8 mb-10 rounded-lg text-sm px-5 py-2.5 mr-2 w-full dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                               Make Appointment
                             </button>
-                          </a>
-                           <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-10 dark:bg-blue-600 dark:hover:bg-blue-700 w-full focus:outline-none dark:focus:ring-blue-800">Show Doctors</button>
+                          </a >
+                           <button   type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-10 dark:bg-blue-600 dark:hover:bg-blue-700 w-full focus:outline-none dark:focus:ring-blue-800"  @click="$router.push('/show/appointment/patient')">Show Appotments</button>
                            <ul
                                class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-2  divide-y rounded shadow-sm">
                                <li class="flex items-center py-3">
@@ -149,7 +149,7 @@ onMounted(() => {
                                    </div>
                                </div>
                            </div>
-                           <router-link to="/EditPatientsData" class="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Edit Informations</router-link>
+                           <router-link to="/edit/patients/data" class="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Edit Informations</router-link>
                        </div>
                        <!-- End of about section -->
 
@@ -159,12 +159,16 @@ onMounted(() => {
                        <div class="bg-white p-3 shadow-sm rounded-sm">
 
                         <div class="grid grid-cols-2">
-                            <ul class="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
-                            <li v-for="appointment in appointments" :key="appointment.id" class="flex items-center">
+                            <ul v-for="appointment in appointments" :key="appointment.id" class="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
+                            <li  v-if="appointment.is_accepted === 1"   class="flex items-center">
                                 <svg class="w-4 h-4 mr-1.5 text-green-500 dark:text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                                 </svg>
-                                  {{ appointment.treatment.treatment_name }}{{ appointment.data }}
+                                  {{ appointment.treatment.treatment_name }}   {{ appointment.visit_date }}   {{ appointment.visit_time}}     {{ appointment.visit_end}}
+                            </li>
+                            <li v-if="appointment.is_accepted === 0" class="flex items-center">
+                                <svg class="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+                                {{ appointment.treatment.treatment_name }}   {{ appointment.visit_date }}   {{ appointment.visit_time}}     {{ appointment.visit_end}}
                             </li>
                             </ul>
                         </div>

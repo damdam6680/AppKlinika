@@ -55,12 +55,12 @@
     const token = localStorage.getItem('token');
     const userId = route.params.userId;
     try {
-      await axios.put(`http://127.0.0.1:8000/api/dentist`, user.value, {
+      await axios.put(`http://127.0.0.1:8000/api/dentists/${userId}`, user.value, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      router.push('/ShowDentists');
+      router.push('/show/users');
     } catch (error) {
       console.error(error);
     }

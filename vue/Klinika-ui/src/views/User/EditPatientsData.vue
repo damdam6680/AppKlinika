@@ -31,14 +31,14 @@ const updateUser = async () => {
      // Odczytaj parametr userId z obiektu route
 
     try {
-      await axios.put(`http://127.0.0.1:8000/api/patients/updateMe`, user.value, {
+      await axios.put(`http://127.0.0.1:8000/api/patients/me`, user.value, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       // Przekieruj użytkownika do innej ścieżki po zaktualizowaniu danych
-      router.push('/PatientIndex');
+      router.push('/patient/home');
     } catch (error) {
       console.error(error);
     }
