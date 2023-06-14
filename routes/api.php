@@ -43,6 +43,7 @@ Route::middleware('auth:sanctum')->group(function(){
     //Route::apiResource('appointments', AppointmentsController::class);
     Route::get('/appointments/calendar', [AppointmentsController::class, 'calendar']);
     Route::get('/appointments/AppotemtsForDoctor', [AppointmentsController::class, 'AppotemtsForDoctor']);
+    Route::get('/appointments/AppotemtsForPacient', [AppointmentsController::class, 'AppotemtsForPacient']);
     Route::patch('/appointments/{id}', [AppointmentsController::class, 'update']);
     Route::get('/appointments', [AppointmentsController::class, 'index']);
     Route::post('/appointments', [AppointmentsController::class, 'store']);
@@ -53,7 +54,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::apiResource('user',UserController::class);
     Route::apiResource('treatments',TreatmentsController::class);
-
+    Route::post('treatments', [TreatmentsController::class, 'store']);
 
 });
 

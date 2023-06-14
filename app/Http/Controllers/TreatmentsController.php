@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Treatments;
 use App\Http\Requests\StoreTreatmentsRequest;
 use App\Http\Requests\UpdateTreatmentsRequest;
-
+use Illuminate\Support\Facades\Auth;
 class TreatmentsController extends Controller
 {
     /**
@@ -48,7 +48,21 @@ class TreatmentsController extends Controller
      */
     public function store(StoreTreatmentsRequest $request)
     {
-        //
+        $user = Auth::user();
+        $validatedData = $request->validated();
+
+        // Tworzenie nowego leczenia na podstawie przekazanych danych
+        $treatment = new Treatments($request->all());
+        $treatment->treatment_name = $validatedData['treatment_name'];
+        $treatment->description = $validatedData['description'];
+        $treatment->waiting_time = $validatedData['waiting_time'];
+        $treatment->price = $validatedData['price'];
+        // Dodatkowe przypisanie innych pól, jeśli istnieją
+
+        // Zapisanie leczenia
+        $treatment->save();
+
+        return response()->json($treatment);
     }
 
     /**
@@ -56,15 +70,15 @@ class TreatmentsController extends Controller
      */
     public function show($id)
     {
-        $patients = Treatments::findOrFail($id);
+        $treatment = Treatments::findOrFail($id);
 
-        return response()->json($patients);
+        return response()->json($treatment);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Treatments $treatments)
+    public function edit(Treatments $treatment)
     {
         //
     }
@@ -74,18 +88,18 @@ class TreatmentsController extends Controller
      */
     public function update(UpdateTreatmentsRequest $request, $id)
     {
-        $dentists = Treatments::findOrFail($id);
-        $dentists -> update($request->all());
+        $treatment = Treatments::findOrFail($id);
+        $treatment->update($request->all());
 
-        $dentists->save();
+        $treatment->save();
 
-        return response()->json($dentists);
+        return response()->json($treatment);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Treatments $treatments)
+    public function destroy(Treatments $treatment)
     {
         //
     }

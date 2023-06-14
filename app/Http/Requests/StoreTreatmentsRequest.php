@@ -11,7 +11,7 @@ class StoreTreatmentsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true; // Możliwość dodawania leczeń będzie sprawdzana w innym miejscu, np. w kontrolerze.
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreTreatmentsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'treatment_name' => 'required|string',
+            'description' => 'required|string',
+            'waiting_time' => 'required|date_format:H:i:s',
+            'price' => 'required|numeric',
         ];
     }
 }
+

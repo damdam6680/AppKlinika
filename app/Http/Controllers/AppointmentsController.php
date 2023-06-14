@@ -79,6 +79,18 @@ class AppointmentsController extends Controller
             return response()->json($response);
 
     }
+
+    public function AppotemtsForPacient(){
+        $user = Auth::user();
+        $patient = Patients::where('user_id', $user->id)->firstOrFail();
+
+        $appointments = Appointments::with('treatment:id,treatment_name')
+            ->where('patient_id', $patient->id)
+            ->get();
+
+        return $appointments;
+
+    }
     /**
      * Show the form for creating a new resource.
      */
