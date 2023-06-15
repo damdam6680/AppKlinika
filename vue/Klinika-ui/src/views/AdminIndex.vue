@@ -78,34 +78,34 @@
   </template>
 
   <script  lang="ts">
-  import { defineComponent, ref } from 'vue'
+  import { defineComponent, ref, onMounted } from 'vue'
   import { Chart, Grid, Line } from 'vue3-charts'
   import { initFlowbite } from 'flowbite'
-
+  import axios from 'axios';
 
 
     initFlowbite()
 
-  const plByMonth = [
-    { name: 'Jan', pl: 100 },
-    { name: 'Feb', pl: 200 },
-    { name: 'Mar', pl: 150 },
-    { name: 'Apr', pl: 300 },
-    { name: 'May', pl: 250 },
-    { name: 'Jun', pl: 180 },
-    { name: 'Jul', pl: 220 },
-    { name: 'Aug', pl: 150 },
-    { name: 'Sep', pl: 280 },
-    { name: 'Oct', pl: 200 },
-    { name: 'Nov', pl: 320 },
-    { name: 'Dec', pl: 250 }
-  ]
+//   const plByMonth = [
+//     { name: 'Jan', pl: 100 },
+//     { name: 'Jan', pl: 200 },
+//     { name: 'Jan', pl: 150 },
+//     { name: 'Apr', pl: 300 },
+//     { name: 'May', pl: 250 },
+//     { name: 'Jun', pl: 180 },
+//     { name: 'Jul', pl: 220 },
+//     { name: 'Aug', pl: 150 },
+//     { name: 'Sep', pl: 280 },
+//     { name: 'Oct', pl: 200 },
+//     { name: 'Nov', pl: 320 },
+//     { name: 'Dec', pl: 250 }
+//   ]
 
   export default defineComponent({
     name: 'LineChart',
     components: { Chart, Grid, Line },
     setup() {
-      const data = ref(plByMonth)
+       const data = ref([]);
       const direction = ref('horizontal')
       const margin = ref({
         left: 0,
@@ -114,15 +114,27 @@
         bottom: 0
       })
       const chartSize = ref({
-        width: window.innerWidth * 0.80,
+        width: window.innerWidth * 0.82,
         height: window.innerHeight * 0.95
       })
 
-    //   window.addEventListener('resize', () => {
-    //     chartSize.value.width = window.innerWidth
-    //     chartSize.value.height = window.innerHeight
-    //   })
+      const fetchData = async () => {
+        const token = localStorage.getItem('token');
+        try {
+            const response = await axios.get(`http://127.0.0.1:8000/api/appointments/chart`, {
+            headers: {
+            Authorization: `Bearer ${token}`,
+            },
+        });
+            data.value = response.data;
+        } catch (error) {
+            console.error(error);
+        }
+        };
 
+        onMounted(() => {
+        fetchData();
+        });
       return { data, direction, margin, chartSize }
     }
   })

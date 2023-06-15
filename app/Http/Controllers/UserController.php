@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Dentist;
 
@@ -97,6 +96,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        $user = Auth::user();
         $patient = User::findOrFail($id);
 
         return response()->json($patient);
@@ -137,5 +137,16 @@ class UserController extends Controller
         }
 
         return response()->json(['message' => 'User was deleted']);
+    }
+
+    public function getUserInfo()
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+
+        return response()->json(['user' => $user]);
     }
 }

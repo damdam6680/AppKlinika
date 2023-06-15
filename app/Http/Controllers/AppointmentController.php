@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use App\Models\Appointment;
@@ -10,6 +11,7 @@ use App\Models\Dentist;
 use App\Models\Patient;
 use App\Models\Treatment;
 use Illuminate\Support\Facades\Auth;
+
 class AppointmentController extends Controller
 {
     /**
@@ -20,8 +22,8 @@ class AppointmentController extends Controller
 
         //$this->authorize('create-delete-user');
         $perPage = 10; // liczba rekordów na stronę
-        $appointments = Appointment::with('patient:id,first_name,last_name', 'treatment:id,treatment_name','dentist:id,last_name')
-        ->paginate($perPage);
+        $appointments = Appointment::with('patient:id,first_name,last_name', 'treatment:id,treatment_name', 'dentist:id,last_name')
+            ->paginate($perPage);
 
         $response = [
             'data' => $appointments->items(),
@@ -41,47 +43,71 @@ class AppointmentController extends Controller
         ];
         return response()->json($response);
     }
+    public function chart()
+    {
+        $this->authorize('create-delete-user');
+        $appointments = Appointment::all();
+        $chartData = [];
+
+        foreach ($appointments as $appointment) {
+            $visitDate = Carbon::createFromFormat('Y-m-d', $appointment->visit_date);
+            $month = $visitDate->format('M');
+
+            if (isset($chartData[$month])) {
+                $chartData[$month]['pl'] += $appointment->price;
+            } else {
+                $chartData[$month] = [
+                    'name' => $month,
+                    'pl' => $appointment->price,
+                ];
+            }
+        }
+
+        return response()->json(array_values($chartData));
+    }
+
     public function calendar()
     {
         $user = Auth::user();
         $dentist = Dentist::where('user_id', $user->id)->firstOrFail();
         $appointments = Appointment::with('patient:id,first_name,last_name', 'treatment:id,treatment_name')
-        ->where('dentist_id', $dentist->id)
-        ->get();
+            ->where('dentist_id', $dentist->id)
+            ->get();
 
-    return response()->json($appointments);
+        return response()->json($appointments);
     }
-    public function AppotemtsForDoctor(){
-            $user = Auth::user();
-            $dentist = Dentist::where('user_id', $user->id)->firstOrFail();
+    public function AppotemtsForDoctor()
+    {
+        $user = Auth::user();
+        $dentist = Dentist::where('user_id', $user->id)->firstOrFail();
 
-            $perPage = 10; // liczba rekordów na stronę
-            $appointments = Appointment::with('patient:id,first_name,last_name', 'treatment:id,treatment_name')
-                ->where('dentist_id', $dentist->id)
-                ->paginate($perPage);
+        $perPage = 10; // liczba rekordów na stronę
+        $appointments = Appointment::with('patient:id,first_name,last_name', 'treatment:id,treatment_name')
+            ->where('dentist_id', $dentist->id)
+            ->paginate($perPage);
 
-            $response = [
-                'data' => $appointments->items(),
-                'links' => [
-                    'first_page_url' => $appointments->url(1),
-                    'last_page_url' => $appointments->url($appointments->lastPage()),
-                    'prev_page_url' => $appointments->previousPageUrl(),
-                    'next_page_url' => $appointments->nextPageUrl(),
-                ],
-                'meta' => [
-                    'current_page' => $appointments->currentPage(),
-                    'from' => $appointments->firstItem(),
-                    'to' => $appointments->lastItem(),
-                    'per_page' => $appointments->perPage(),
-                    'total' => $appointments->total(),
-                ],
-            ];
+        $response = [
+            'data' => $appointments->items(),
+            'links' => [
+                'first_page_url' => $appointments->url(1),
+                'last_page_url' => $appointments->url($appointments->lastPage()),
+                'prev_page_url' => $appointments->previousPageUrl(),
+                'next_page_url' => $appointments->nextPageUrl(),
+            ],
+            'meta' => [
+                'current_page' => $appointments->currentPage(),
+                'from' => $appointments->firstItem(),
+                'to' => $appointments->lastItem(),
+                'per_page' => $appointments->perPage(),
+                'total' => $appointments->total(),
+            ],
+        ];
 
-            return response()->json($response);
-
+        return response()->json($response);
     }
 
-    public function AppotemtsForPacient(){
+    public function AppotemtsForPacient()
+    {
         $user = Auth::user();
         $patient = Patient::where('user_id', $user->id)->firstOrFail();
 
@@ -91,10 +117,10 @@ class AppointmentController extends Controller
             ->get();
 
         return $appointments;
-
     }
 
-    public function AppotemtsForPacientList(){
+    public function AppotemtsForPacientList()
+    {
         $user = Auth::user();
         $patient = Patient::where('user_id', $user->id)->firstOrFail();
 
@@ -121,8 +147,7 @@ class AppointmentController extends Controller
         ];
 
         return response()->json($response);
-
-}
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -203,12 +228,12 @@ class AppointmentController extends Controller
     {
         $appointment = Appointment::findOrFail($id);
 
-    // Aktualizuj wartość pola isAccepted na podstawie żądania
+        // Aktualizuj wartość pola isAccepted na podstawie żądania
         $appointment->isAccepted = $request->input('isAccepted');
 
         $appointment->save();
 
-    // Zwróć odpowiedź JSON z zaktualizowanymi danymi wizyty
+        // Zwróć odpowiedź JSON z zaktualizowanymi danymi wizyty
         return response()->json($appointment);
     }
 
@@ -258,6 +283,4 @@ class AppointmentController extends Controller
 
         return $appointments;
     }
-
-
 }
