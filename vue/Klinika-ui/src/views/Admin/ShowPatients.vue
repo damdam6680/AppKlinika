@@ -28,6 +28,24 @@ import Sidebar from './sidebar.vue';
   }
 };
 
+const deleteUser = async (userId) => {
+  const token = localStorage.getItem('token');
+
+  try {
+    await axios.delete(`http://127.0.0.1:8000/api/patients/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // Pomyślnie usunięto użytkownika, możesz wykonać dodatkowe czynności, np. odświeżenie listy użytkowników
+    // Przeładuj użytkowników po usunięciu
+    await fetchUsers('http://127.0.0.1:8000/api/patients');
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 onMounted(() => {
   fetchUsers('http://127.0.0.1:8000/api/patients');
 });
@@ -71,6 +89,9 @@ onMounted(() => {
                 <th scope="col" class="px-6 py-3">
                   Edit User
                 </th>
+                <th scope="col" class="px-6 py-3">
+                    Delete
+                  </th>
               </tr>
             </thead>
             <tbody>
@@ -104,6 +125,9 @@ onMounted(() => {
                 </td>
                 <td class="px-6 py-4">
                   <router-link :to="{ name: 'EditUsers', params: { userId: patient.user_id } }" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit User</router-link>
+                </td>
+                <td class="px-6 py-4 ">
+                    <button @click="deleteUser(patient.id)" class="px-3 py-2 text-xs font-medium leading-4 text-white bg-red-600 hover:bg-red-700 rounded-lg">Delete</button>
                 </td>
               </tr>
             </tbody>

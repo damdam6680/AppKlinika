@@ -21,6 +21,9 @@
                 <th scope="col" class="px-6 py-3">
                   Edit Treatment
                 </th>
+                <th scope="col" class="px-6 py-3">
+                    Delete
+                  </th>
               </tr>
             </thead>
             <tbody>
@@ -39,6 +42,9 @@
                 </td>
                 <td class="px-6 py-4">
                   <router-link :to="{ name: 'EditTreatments', params: { userId: treatment.id } }" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</router-link>
+                </td>
+                <td class="px-6 py-4 flex items-center">
+                    <button @click="deleteUser(treatment.id)" class="ml-4 px-3 py-2 text-xs font-medium leading-4 text-white bg-red-600 hover:bg-red-700 rounded-lg">Delete</button>
                 </td>
               </tr>
             </tbody>
@@ -70,7 +76,23 @@
       console.error(error);
     }
   };
+  const deleteUser = async (userId) => {
+  const token = localStorage.getItem('token');
 
+  try {
+    await axios.delete(`http://127.0.0.1:8000/api/treatments/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // Pomyślnie usunięto użytkownika, możesz wykonać dodatkowe czynności, np. odświeżenie listy użytkowników
+    // Przeładuj użytkowników po usunięciu
+    await fetchTreatments('http://127.0.0.1:8000/api/treatments');
+  } catch (error) {
+    console.error(error);
+  }
+};
   onMounted(() => {
     fetchTreatments();
   });

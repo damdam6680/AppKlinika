@@ -23,7 +23,23 @@ const fetchAppointments = async (url) => {
     console.error(error);
   }
 };
+const deleteUser = async (userId) => {
+  const token = localStorage.getItem('token');
 
+  try {
+    await axios.delete(`http://127.0.0.1:8000/api/appointments/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // Pomyślnie usunięto użytkownika, możesz wykonać dodatkowe czynności, np. odświeżenie listy użytkowników
+    // Przeładuj użytkowników po usunięciu
+    await fetchAppointments('http://127.0.0.1:8000/api/appointments');
+  } catch (error) {
+    console.error(error);
+  }
+};
 onMounted(() => {
   fetchAppointments('http://127.0.0.1:8000/api/appointments');
 });

@@ -99,8 +99,18 @@ class DentistController extends Controller
      */
     public function destroy($id)
     {
-        $dentists = Dentist::findOrFail($id);
-        $dentists->delete();
-        return response()->json($dentists);
+        $this->authorize('create-delete-user');
+
+        $user = Dentist::withTrashed()->findOrFail($id);
+
+        if ($user->trashed()) {
+            // Użytkownik jest już usunięty (soft delete), więc wykonaj permanentne usunięcie
+            $user->forceDelete();
+        } else {
+            // Wykonaj soft delete
+            $user->delete();
+        }
+
+        return response()->json(['message' => 'Dentist was deleted']);
     }
 }

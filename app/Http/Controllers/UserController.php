@@ -122,13 +122,20 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy( $id)
+    public function destroy($id)
     {
         $this->authorize('create-delete-user');
 
-        $patients = User::findOrFail($id);
-        $patients->delete();
-        return response()->json($patients);
+        $user = User::withTrashed()->findOrFail($id);
 
+        if ($user->trashed()) {
+            // Użytkownik jest już usunięty (soft delete), więc wykonaj permanentne usunięcie
+            $user->forceDelete();
+        } else {
+            // Wykonaj soft delete
+            $user->delete();
+        }
+
+        return response()->json(['message' => 'User was deleted']);
     }
 }

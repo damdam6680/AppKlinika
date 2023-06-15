@@ -30,12 +30,11 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('patients', [PatientController::class, 'index']);
     Route::get('patients/me', [PatientController::class, 'showMe']);
     Route::get('patients/{id}', [PatientController::class, 'show']);
-
     Route::put('patients/me', [PatientController::class, 'updateMe']);
     Route::patch('patients/me', [PatientController::class, 'updateMe']);
-
     Route::put('patients/{id}', [PatientController::class, 'update']);
     Route::patch('patients/{id}', [PatientController::class, 'update']);
+    Route::delete('patients/{id}', [PatientController::class, 'destroy']);
 
     Route::put('dentists/{id}', [DentistController::class, 'update']);
     Route::get('dentists/{id}', [DentistController::class, 'show']);
@@ -50,12 +49,14 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::patch('/appointments/{id}', [AppointmentController::class, 'update']);
     Route::get('/appointments', [AppointmentController::class, 'index']);
     Route::post('/appointments', [AppointmentController::class, 'store']);
+    Route::delete('appointments/{id}', [AppointmentController::class, 'destroy']);
 
     Route::post('/dentists/create', [UserController::class, 'createDentist']);
-
+    Route::delete('dentists/{id}', [DentistController::class, 'destroy']);
 
 
     Route::apiResource('users',UserController::class);
+    Route::delete('users/{id}', [UserController::class, 'destroy']);
     Route::apiResource('treatments',TreatmentController::class);
     Route::post('treatments', [TreatmentController::class, 'store']);
 

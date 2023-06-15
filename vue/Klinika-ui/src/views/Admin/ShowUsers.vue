@@ -15,7 +15,12 @@
                 <th scope="col" class="px-6 py-3">
                   Role
                 </th>
-                <th scope="col" class="px-6 py-3"></th>
+                <th scope="col" class="px-6 py-3">
+                    Edit
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Delete
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -29,9 +34,11 @@
                 <td class="px-6 py-4">
                   {{ user.role }}
                 </td>
-                <td class="px-6 py-4 flex items-center">
+                <td class="px-6 py-4 ">
                   <router-link :to="{ name: 'EditUsers', params: { userId: user.id } }" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</router-link>
-                  <button @click="deleteUser(user.id)" class="ml-4 px-3 py-2 text-xs font-medium leading-4 text-white bg-red-600 hover:bg-red-700 rounded-lg">Delete</button>
+                </td>
+                <td class="px-6 py-4 ">
+                    <button @click="deleteUser(user.id)" class="px-3 py-2 text-xs font-medium leading-4 text-white bg-red-600 hover:bg-red-700 rounded-lg">Delete</button>
                 </td>
               </tr>
             </tbody>
@@ -72,35 +79,22 @@
   };
 
   const deleteUser = async (userId) => {
-    const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
 
-    try {
-      // Delete associated records in the `patients` table first
-      const patientsResponse = await axios.get(`http://127.0.0.1:8000/api/patients?user_id=${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      //patients.value = patientsResponse.data.data[0].id;
-      //console.log(patients.value);
-      await axios.delete(`http://127.0.0.1:8000/api/patients/${patients.value}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      // Then delete the user
-      await axios.delete(`http://127.0.0.1:8000/api/users/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  try {
+    await axios.delete(`http://127.0.0.1:8000/api/users/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      // Refresh the user list after deletion
-      await fetchUsers('http://127.0.0.1:8000/api/users');
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    // Pomyślnie usunięto użytkownika, możesz wykonać dodatkowe czynności, np. odświeżenie listy użytkowników
+    // Przeładuj użytkowników po usunięciu
+    await fetchUsers('http://127.0.0.1:8000/api/users');
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   onMounted(async () => {
     const initialUrl = 'http://127.0.0.1:8000/api/users';

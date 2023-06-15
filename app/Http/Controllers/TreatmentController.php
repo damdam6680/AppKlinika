@@ -99,8 +99,20 @@ class TreatmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Treatment $treatment)
+    public function destroy($id)
     {
-        //
+        $this->authorize('create-delete-user');
+
+        $user = Treatment::withTrashed()->findOrFail($id);
+
+        if ($user->trashed()) {
+            // Użytkownik jest już usunięty (soft delete), więc wykonaj permanentne usunięcie
+            $user->forceDelete();
+        } else {
+            // Wykonaj soft delete
+            $user->delete();
+        }
+
+        return response()->json(['message' => 'Appointment was deleted']);
     }
 }

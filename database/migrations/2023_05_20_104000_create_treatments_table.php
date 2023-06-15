@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('treatments', function (Blueprint $table) {
+            $table->softDeletes();
             $table->increments('id');
             $table->string('treatment_name', 50);
             $table->text('description');

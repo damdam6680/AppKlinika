@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('dentists', function (Blueprint $table) {
+            $table->softDeletes();
             $table->increments('id');
             $table->unsignedInteger('user_id')->unique();
             $table->foreign('user_id')->references('id')->on('users');

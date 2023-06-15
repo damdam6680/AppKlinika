@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use App\Models\Appointment;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
@@ -142,8 +143,16 @@ class AppointmentController extends Controller
         $visitDate = Carbon::createFromFormat('Y-m-d', $request->input('visit_date'))->format('Y-m-d');
         $visitTime = Carbon::createFromFormat('H:i', $request->input('visit_time'))->format('H:i:s');
         $visitEndTime = Carbon::createFromFormat('H:i', $request->input('visit_end'))->format('H:i:s');
+        $selectedTreatment = Treatment::findOrFail($request->input('treatmets_id'));
+        $price = $selectedTreatment->price;
 
+        $waitingTime = Carbon::createFromFormat('H:i:s', $selectedTreatment->waiting_time);
 
+        // Konwersja visitTime na obiekt Carbon i dodanie do waitingTime
+        $visitTimeCarbon = Carbon::createFromFormat('H:i:s', $visitTime);
+        $waitingTime->addHours($visitTimeCarbon->hour);
+        $waitingTime->addMinutes($visitTimeCarbon->minute);
+        $waitingTime->addSeconds($visitTimeCarbon->second);
         // Sprawdzenie, czy podane czasy nie zachodzą na siebie
         if ($this->isTimeCollision($visitDate, $visitTime, $visitEndTime)) {
             return response()->json(['message' => 'Collision detected. Please choose a different time.'], 422);
@@ -153,8 +162,9 @@ class AppointmentController extends Controller
         $appointment = new Appointment($request->all());
         $appointment->visit_date = $visitDate;
         $appointment->visit_time = $visitTime;
-        $appointment->visit_end = $visitEndTime;
+        $appointment->visit_end =  $waitingTime;
         $appointment->patient_id = $patient->id;
+        $appointment->price = $price;
 
         $appointment->save();
 
@@ -205,9 +215,21 @@ class AppointmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Appointment $appointments)
+    public function destroy($id)
     {
-        //
+        $this->authorize('create-delete-user');
+
+        $user = Appointment::withTrashed()->findOrFail($id);
+
+        if ($user->trashed()) {
+            // Użytkownik jest już usunięty (soft delete), więc wykonaj permanentne usunięcie
+            $user->forceDelete();
+        } else {
+            // Wykonaj soft delete
+            $user->delete();
+        }
+
+        return response()->json(['message' => 'Appointment was deleted']);
     }
 
     /**

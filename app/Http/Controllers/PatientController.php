@@ -115,15 +115,21 @@ class PatientController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy( $id)
+    public function destroy($id)
     {
         $this->authorize('create-delete-user');
-        $patients = Patient::findOrFail($id);
-        $patients->delete();
-        return response()->json($patients);
 
+        $user = Patient::withTrashed()->findOrFail($id);
+
+        if ($user->trashed()) {
+            // Użytkownik jest już usunięty (soft delete), więc wykonaj permanentne usunięcie
+            $user->forceDelete();
+        } else {
+            // Wykonaj soft delete
+            $user->delete();
+        }
+
+        return response()->json(['message' => 'Patient was deleted']);
     }
 }
-
-
 

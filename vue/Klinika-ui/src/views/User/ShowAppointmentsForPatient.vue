@@ -100,9 +100,6 @@ onMounted(() => {
               <td class="px-6 py-4">
                 {{ appointment.is_accepted }}
               </td>
-              <td class="px-6 py-4 flex items-center">
-                <button @click="deleteUser(appointment.id)" class="ml-4 px-3 py-2 text-xs font-medium leading-4 text-white bg-red-600 hover:bg-red-700 rounded-lg">Delete</button>
-              </td>
             </tr>
           </tbody>
         </table>
