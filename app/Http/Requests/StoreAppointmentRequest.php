@@ -28,10 +28,11 @@ class StoreAppointmentRequest extends FormRequest
         return [
             'dentist_id' => ['required'],
             'treatmets_id' => ['required'],
-            'visit_date' => ['required', 'date', 'after_or_equal:today'],
-            'visit_time' =>  ['required'],
+            'visit_date' => ['required', 'date','before:08:00' ,'after_or_equal:today'],
+            'visit_time' =>  ['required','date_format:H:i'],
             'description' =>  ['required'],
-            'visit_end' => ['required', 'after:visit_time'],
+            'visit_end' => ['required', 'after:visit_time','date_format:H:i',
+            'before:18:00'],
             'price' => ['required']
         ];
     }

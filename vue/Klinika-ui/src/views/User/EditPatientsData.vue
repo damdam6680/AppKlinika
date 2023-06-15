@@ -31,16 +31,25 @@ const updateUser = async () => {
      // Odczytaj parametr userId z obiektu route
 
     try {
-      await axios.put(`http://127.0.0.1:8000/api/patients/me`, user.value, {
+        const response = await axios.put(`http://127.0.0.1:8000/api/patients/me`, user.value, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
+      if (response.status === 200) {
+        document.getElementById('error-message').textContent = '';
+      }
       // Przekieruj użytkownika do innej ścieżki po zaktualizowaniu danych
       router.push('/patient/home');
     } catch (error) {
       console.error(error);
+
+      if (error.response && error.response.status !== 200) {
+      const errorMessage = error.response.data.message;
+      // Wyświetl komunikat błędu nad formularzem
+      document.getElementById('error-message').textContent = errorMessage;
+        }
+
     }
   };
 
@@ -55,6 +64,9 @@ onMounted(() => {
         <navbar></navbar>
 
             <div class="p-10 ">
+                <div class="mb-6 text-red-500">
+                <div id="error-message" class="text-red-500"></div>
+                </div>
               <form @submit.prevent="updateUser">
                 <div class="mb-6">
                   <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 ">First Name</label>

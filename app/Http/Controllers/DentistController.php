@@ -90,11 +90,7 @@ class DentistController extends Controller
     {
         $user = Auth::user();
         $dentist = Dentist::where('user_id', $user->id)->firstOrFail();
-
-
-
-        $dentist->update($request->all());
-        $dentist->save();
+        $dentist->update($request->except('user_id'));
 
         return response()->json($dentist);
     }

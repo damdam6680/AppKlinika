@@ -143,13 +143,10 @@ class AppointmentController extends Controller
         $visitTime = Carbon::createFromFormat('H:i', $request->input('visit_time'))->format('H:i:s');
         $visitEndTime = Carbon::createFromFormat('H:i', $request->input('visit_end'))->format('H:i:s');
 
-        if (!$this->isVisitTimeBeforeEnd($visitTime, $visitEndTime)) {
-            return response()->json(['error' => 'Visit time cannot be later than visit end time.'], 422);
-        }
 
         // Sprawdzenie, czy podane czasy nie zachodzą na siebie
         if ($this->isTimeCollision($visitDate, $visitTime, $visitEndTime)) {
-            return response()->json(['error' => 'Collision detected. Please choose a different time.'], 422);
+            return response()->json(['message' => 'Collision detected. Please choose a different time.'], 422);
         }
 
         // Tworzenie nowego zapisu
@@ -238,17 +235,6 @@ class AppointmentController extends Controller
             })->exists();
 
         return $appointments;
-    }
-       /**
-     * Check if visit_time is before visit_end.
-     *
-     * @param  string  $visitTime
-     * @param  string  $visitEndTime
-     * @return bool
-     */
-    private function isVisitTimeBeforeEnd($visitTime, $visitEndTime)
-    {
-        return $visitTime < $visitEndTime;
     }
 
 

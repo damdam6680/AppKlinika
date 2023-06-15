@@ -24,19 +24,17 @@ class UpdateDentistRequest extends FormRequest
         $method = $this->method();
         if ($method === 'PUT') {
             return [
-                'user_id' => ['required'],
-                'first_name' => ['required', 'string', 'max:50'],
-                'last_name' => ['required', 'string', 'max:50'],
+                'first_name' => ['required', 'string', 'max:50', 'regex:/^[^\d]+$/'],
+                'last_name' => ['required', 'string', 'max:50', 'regex:/^[^\d]+$/'],
                 'specialization' => ['required', 'string', 'max:50'],
                 'phone_number' => ['required', 'string', 'max:20'],
             ];
         } else {
             return [
-                'user_id' => ['sometimes', 'required'],
-                'first_name' => ['sometimes','required', 'string', 'max:50'],
-                'last_name' => ['sometimes','required', 'string', 'max:50'],
-                'specialization' => ['sometimes','required', 'string', 'max:50'],
-                'phone_number' => ['sometimes','required', 'string', 'max:20'],
+                'first_name' => ['sometimes', 'required', 'string', 'max:50', 'regex:/^[^\d]+$/'],
+                'last_name' => ['sometimes', 'required', 'string', 'max:50', 'regex:/^[^\d]+$/'],
+                'specialization' => ['sometimes', 'required', 'string', 'max:50'],
+                'phone_number' => ['sometimes', 'required', 'string', 'max:20'],
             ];
         }
 

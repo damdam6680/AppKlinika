@@ -37,9 +37,9 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::put('patients/{id}', [PatientController::class, 'update']);
     Route::patch('patients/{id}', [PatientController::class, 'update']);
 
-    Route::get('dentists/{id}', [DentistController::class, 'update']);
-    Route::patch('dentists/{id}', [DentistController::class, 'show']);
-    Route::patch('dentists/update', [DentistController::class, 'updateDentist']);
+    Route::put('dentists/{id}', [DentistController::class, 'update']);
+    Route::get('dentists/{id}', [DentistController::class, 'show']);
+    Route::put('dentists/update', [DentistController::class, 'updateDentist']);
     Route::get('dentists', [DentistController::class, 'index']);
 
 
