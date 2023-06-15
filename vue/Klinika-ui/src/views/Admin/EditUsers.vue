@@ -1,6 +1,9 @@
 <template>
     <Sidebar></Sidebar>
     <div class="p-4 sm:ml-64 max-w-screen-2xl">
+        <div class="mb-6 text-red-500">
+            <div id="error-message" class="text-red-500"></div>
+        </div>
       <form class="p-10" @submit.prevent="updateUser">
         <div class="mb-6">
           <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
@@ -52,16 +55,25 @@
     const userId = route.params.userId; // Odczytaj parametr userId z obiektu route
 
     try {
-      await axios.put(`http://127.0.0.1:8000/api/users/${userId}`, user.value, {
+        const response =  await axios.put(`http://127.0.0.1:8000/api/users/${userId}`, user.value, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
+      if (response.status === 200) {
+            document.getElementById('error-message').textContent = '';
+        }
       // Przekieruj użytkownika do innej ścieżki po zaktualizowaniu danych
       router.push('/show/users');
     } catch (error) {
       console.error(error);
+
+      if (error.response && error.response.status !== 200) {
+            const errorMessage = error.response.data.message;
+            // Wyświetl komunikat błędu nad formularzem
+            document.getElementById('error-message').textContent = errorMessage;
+        }
+
     }
   };
 

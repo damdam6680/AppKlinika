@@ -51,7 +51,7 @@ class UserController extends Controller
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->password = bcrypt($data['password']);
-        $user->role = 'is_Dentist';
+        $user->role = 'dentist';
 
         // Zapisz użytkownika w bazie danych
         $user->save();

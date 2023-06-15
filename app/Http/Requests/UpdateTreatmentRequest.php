@@ -23,10 +23,10 @@ class UpdateTreatmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'treatment_name' => 'required|string',
+            'treatment_name' => 'required|string|max:50',
             'description' => 'required|string',
             'waiting_time' => 'required|date_format:H:i:s',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|between:0,999999.99'
 
         ];
     }

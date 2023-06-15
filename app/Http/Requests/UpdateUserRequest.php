@@ -17,7 +17,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'email' => 'required|email',
             'name' => 'required',
-            'role' => 'required',
+            'role' => 'required|in:admin,user,dentist',
         ];
     }
 }

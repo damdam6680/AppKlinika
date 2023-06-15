@@ -1,6 +1,9 @@
 <template>
     <Sidebar></Sidebar>
     <div class="p-4 sm:ml-64 max-w-screen-2xl">
+        <div class="mb-6 text-red-500">
+            <div id="error-message" class="text-red-500"></div>
+        </div>
         <form class="p-10" @submit.prevent="createDentist">
           <div class="mb-6">
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
@@ -32,10 +35,10 @@
 
   async function createDentist() {
     try {
-      // Pobierz token z lokalnego magazynu (np. z localStorage lub Vuex)
+
       const token = localStorage.getItem('token');
 
-      const response = await axios.post('http://127.0.0.1:8000/api/appointments/create', {
+      const response = await axios.post('http://127.0.0.1:8000/api/dentists/create', {
         name: user.value.name,
         email: user.value.email,
         password: user.value.password,
@@ -44,12 +47,19 @@
           Authorization: `Bearer ${token}`, // Dodaj token do nagłówka żądania
         },
       });
-
+      if (response.status === 200) {
+            document.getElementById('error-message').textContent = '';
+        }
       console.log(response.data);
       // Możesz dodać logikę obsługi odpowiedzi, np. wyświetlanie komunikatu sukcesu
     } catch (error) {
       console.error(error);
       // Możesz dodać logikę obsługi błędów, np. wyświetlanie komunikatu o błędzie
+      if (error.response && error.response.status !== 200) {
+            const errorMessage = error.response.data.message;
+            // Wyświetl komunikat błędu nad formularzem
+            document.getElementById('error-message').textContent = errorMessage;
+        }
     }
   }
   </script>
