@@ -143,10 +143,17 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        if (!$user) {
-            return response()->json(['error' => 'User not authenticated'], 401);
+        if ($user) {
+            // Pobierz wszystkie informacje o zalogowanym użytkowniku
+            $userInfo = [
+                'role' => $user->role,
+
+            ];
+
+            return response()->json($userInfo);
         }
 
-        return response()->json(['user' => $user]);
+        return response()->json(['error' => 'Nie znaleziono zalogowanego użytkownika'], 404);
     }
+
 }

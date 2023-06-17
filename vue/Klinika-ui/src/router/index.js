@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import axios from 'axios';
+import { ref } from 'vue';
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -28,6 +29,9 @@ const router = createRouter({
     {
       path: '/patient/home',
       name: 'PatientIndex',
+      meta: {
+        requiresUser: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+      },
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -48,6 +52,9 @@ const router = createRouter({
     {
         path: '/show/dentists',
         name: 'ShowDentists',
+        meta: {
+            requiresAdmin: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -56,6 +63,9 @@ const router = createRouter({
     {
         path: '/show/users',
         name: 'ShowUsers',
+        meta: {
+            requiresAdmin: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -65,7 +75,9 @@ const router = createRouter({
         path: '/users/edit/:userId',
 
         name: 'EditUsers',
-
+        meta: {
+            requiresAdmin: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -75,7 +87,9 @@ const router = createRouter({
       {
         path: '/edit/dentists/:userId',
         name: 'EditDentists',
-
+        meta: {
+            requiresAdmin: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -84,7 +98,9 @@ const router = createRouter({
       {
         path: '/edit/patients/data',
         name: 'EditPatientsData',
-
+        meta: {
+            requiresDentist: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -93,7 +109,9 @@ const router = createRouter({
       {
         path: '/apoitment',
         name: 'MakeAppointment',
-
+        meta: {
+            requiresUser: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -102,7 +120,9 @@ const router = createRouter({
       {
         path: '/dentits/home',
         name: 'DentitsIndex',
-
+        meta: {
+            requiresDentist: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -111,7 +131,9 @@ const router = createRouter({
       {
         path: '/appointment',
         name: 'appointment',
-
+        meta: {
+            requiresDentist: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -120,7 +142,9 @@ const router = createRouter({
       {
         path: '/show/appointments',
         name: 'ShowAppointment',
-
+        meta: {
+            requiresAdmin: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -129,7 +153,9 @@ const router = createRouter({
       {
         path: '/add/dentis',
         name: 'AddDentis',
-
+        meta: {
+            requiresAdmin: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -138,7 +164,9 @@ const router = createRouter({
       {
         path: '/edit/dentist',
         name: 'EditDentist',
-
+        meta: {
+            requiresDentist: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -147,7 +175,9 @@ const router = createRouter({
       {
         path: '/show/patients',
         name: 'ShowPatients',
-
+        meta: {
+            requiresAdmin: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -156,7 +186,9 @@ const router = createRouter({
       {
         path: '/edit/patients/:userId',
         name: 'EditPatients',
-
+        meta: {
+            requiresAdmin: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -165,7 +197,9 @@ const router = createRouter({
       {
         path: '/show/tretments',
         name: 'ShowTretments',
-
+        meta: {
+            requiresAdmin: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -174,7 +208,9 @@ const router = createRouter({
       {
         path: '/edit/treatments/:userId',
         name: 'EditTreatments',
-
+        meta: {
+            requiresAdmin: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -183,7 +219,9 @@ const router = createRouter({
       {
         path: '/add/treatments',
         name: 'AddTreatments',
-
+        meta: {
+            requiresAdmin: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -192,7 +230,9 @@ const router = createRouter({
       {
         path: '/show/appointment/patient',
         name: 'ShowAppotmentsForPatient',
-
+        meta: {
+            requiresUser: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+          },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -201,10 +241,114 @@ const router = createRouter({
   ]
 });
 
-router.beforeEach((to, from) => {
-    // ...
-    // explicitly return false to cancel the navigation
-    return false
-  })
 
-export default router
+const checkUserRole = async (to, from, next) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get('http://127.0.0.1:8000/api/users/me', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const user = response.data;
+      console.log(user);
+      // Sprawdzanie roli użytkownika
+      if (user.role === 'admin') {
+        // Jeśli użytkownik ma rolę admina, przekieruj do docelowej trasy, np. next('/admin');
+        next();
+      } else {
+        // Jeśli użytkownik nie ma roli admina, przekieruj na stronę główną
+        next('/');
+      }
+    } catch (error) {
+      // W przypadku błędu zapytania, przekieruj na stronę logowania
+      next('/login');
+    }
+  };
+
+  const checkDentistRole = async (to, from, next) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get('http://127.0.0.1:8000/api/users/me', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const user = response.data;
+      console.log(user);
+      // Sprawdzanie roli użytkownika
+      if (user.role === 'dentist') {
+        // Jeśli użytkownik ma rolę dentysty, przekieruj do docelowej trasy, np. next('/dentist');
+        next();
+      } else {
+        // Jeśli użytkownik nie ma roli dentysty, przekieruj na stronę główną
+        next('/');
+      }
+    } catch (error) {
+      // W przypadku błędu zapytania, przekieruj na stronę logowania
+      next('/login');
+    }
+  };
+
+  const checkPatientRole = async (to, from, next) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get('http://127.0.0.1:8000/api/users/me', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const user = response.data;
+      console.log(user);
+      // Sprawdzanie roli użytkownika
+      if (user.role === 'user') {
+        // Jeśli użytkownik ma rolę usera, przekieruj do docelowej trasy, np. next('/user');
+        next();
+      } else {
+        // Jeśli użytkownik nie ma roli usera, przekieruj na stronę główną
+        next('/');
+      }
+    } catch (error) {
+      // W przypadku błędu zapytania, przekieruj na stronę logowania
+      next('/login');
+    }
+  };
+
+  router.beforeEach(async (to, from, next) => {
+    // Sprawdzanie czy użytkownik jest zalogowany
+    const isLoggedIn = true; // Zmień na odpowiednie sprawdzenie czy użytkownik jest zalogowany
+
+    if (to.meta.requiresAdmin) {
+      // Sprawdzanie wymaganej roli dla danej trasy
+      if (isLoggedIn) {
+        // Sprawdzanie roli użytkownika tylko jeśli jest zalogowany
+        await checkUserRole(to, from, next);
+      } else {
+        // Jeśli użytkownik nie jest zalogowany, przekieruj na stronę logowania
+        next('/login');
+      }
+    } else if (to.meta.requiresDentist) {
+      // Sprawdzanie wymaganej roli dla danej trasy
+      if (isLoggedIn) {
+        // Sprawdzanie roli użytkownika tylko jeśli jest zalogowany
+        await checkDentistRole(to, from, next);
+      } else {
+        // Jeśli użytkownik nie jest zalogowany, przekieruj na stronę logowania
+        next('/login');
+      }
+    } else if (to.meta.requiresUser) {
+      // Sprawdzanie wymaganej roli dla danej trasy
+      if (isLoggedIn) {
+        // Sprawdzanie roli użytkownika tylko jeśli jest zalogowany
+        await checkPatientRole(to, from, next);
+      } else {
+        // Jeśli użytkownik nie jest zalogowany, przekieruj na stronę logowania
+        next('/login');
+      }
+    } else {
+      // Kontynuuj normalnie, jeśli trasa nie wymaga żadnej konkretnej roli
+      next();
+    }
+  });
+
+  export default router;

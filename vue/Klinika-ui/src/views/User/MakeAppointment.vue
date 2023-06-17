@@ -236,7 +236,9 @@ body{
     border: 0;
 
 }
-
+#body{
+    color: black;
+}
 </style>
 
 <template>
@@ -384,56 +386,56 @@ body{
                 <div id="error-message" class="text-red-500"></div>
               </div>
 
-            <form class="p-10 " @submit.prevent="updateUser">
+              <form class="p-10 " @submit.prevent="updateUser">
                 <div class="grid grid-cols-2 gap-4 ">
                     <div>
-                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dentist Name</label>
-                     <input type="text" id="name" v-model="selectedDentist.first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dentist Name</label>
+                        <input type="text" id="name" v-model="selectedDentist.first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required readonly>
                     </div>
 
                     <div>
                         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Dentist LastName</label>
-                        <input type="text" id="name"  v-model="selectedDentist.last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <input type="text" id="name" v-model="selectedDentist.last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required readonly>
                     </div>
                 </div>
                 <div class="mb-6">
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 pt-10 dark:text-white">Treatment Name</label>
-                        <input type="text" id="name"  v-model="selectedTreatment.treatment_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 pt-5 dark:text-white">Treatment Name</label>
+                        <input type="text" id="name" v-model="selectedTreatment.treatment_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required readonly>
                     </div>
                 </div>
                 <div class="mb-6">
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 pt-10 dark:text-white">price</label>
-                        <input type="text" id="name"  v-model="selectedTreatment.price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900  dark:text-white">price</label>
+                        <input type="text" id="name" v-model="selectedTreatment.price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required readonly>
                     </div>
                 </div>
                 <div class="mb-6">
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 pt-10 dark:text-white">Date</label>
-                        <input type="text" id="name"  v-model="selectedDate"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 0 dark:text-white">Date</label>
+                        <input type="text" id="name" v-model="selectedDate" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required readonly>
                     </div>
                 </div>
                 <div class="mb-6">
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 pt-10 dark:text-white">Start Time</label>
-                        <input type="text" id="name" v-model="selectedTime"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900  dark:text-white">Start Time</label>
+                        <input type="text" id="name" v-model="selectedTime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required readonly>
                     </div>
                 </div>
                 <div class="mb-6">
                     <div>
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 pt-10 dark:text-white">End Time</label>
-                        <input type="text" id="name" v-model="formattedTime"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900  dark:text-white">End Time</label>
+                        <input type="text" id="name" v-model="formattedTime" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required readonly>
                     </div>
                 </div>
                 <div class="mb-6">
                     <div>
-                      <label for="description" class="block mb-2 text-sm font-medium text-gray-900 pt-10 dark:text-white">Opis</label>
-                      <textarea id="description" v-model="appointmentDescription" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
+                        <label for="description" class="mb-2 text-sm font-medium text-gray-900  dark:text-white">Opis</label>
+                        <textarea id="description" v-model="appointmentDescription" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ></textarea>
                     </div>
                 </div>
-
             </form>
+
 
 
 

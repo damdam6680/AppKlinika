@@ -55,22 +55,28 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/dentists/create', [UserController::class, 'createDentist']);
     Route::delete('dentists/{id}', [DentistController::class, 'destroy']);
 
-
+    Route::get('users/me', [UserController::class, 'getUserInfo']);
     Route::get('users', [UserController::class, 'index']);
     Route::delete('users/{id}', [UserController::class, 'destroy']);
 
-    Route::get('users/{id}', [UserController::class, 'update']);
-    Route::get('users/{id}', [UserController::class, 'update']);
+    Route::put('users/{id}', [UserController::class, 'update']);
+    Route::patch('users/{id}', [UserController::class, 'update']);
     Route::get('users/{id}', [UserController::class, 'show']);
 
-    Route::apiResource('treatments',TreatmentController::class);
+
     Route::post('treatments', [TreatmentController::class, 'store']);
+    Route::get('treatments/{id}', [TreatmentController::class, 'store']);
+    Route::delete('treatments/{id}', [TreatmentController::class, 'destroy']);
+    Route::patch('/treatments/{id}', [TreatmentController::class, 'update']);
+    Route::put('/treatments/{id}', [TreatmentController::class, 'update']);
+
+
 
 });
 
-Route::get('users/me', [UserController::class, 'getUserInfo']);
+Route::get('treatments', [TreatmentController::class, 'index']);
+
 
 
 Route::post('/auth/register', [AuthController::class, 'createUser']);
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
-
