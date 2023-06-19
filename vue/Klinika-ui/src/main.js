@@ -11,4 +11,5 @@ const app = createApp(App)
 app.component('VueDatePicker', VueDatePicker);
 app.use(router)
 
+
 app.mount('#app')

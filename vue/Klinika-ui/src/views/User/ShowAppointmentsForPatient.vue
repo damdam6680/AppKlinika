@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import navbar from '../navbar.vue'
-
+import { initFlowbite } from 'flowbite'
 const appointments = ref([]);
 const pagination = ref({});
 
@@ -25,6 +25,7 @@ const fetchAppointments = async (url) => {
 };
 
 onMounted(() => {
+    initFlowbite();
   fetchAppointments('http://127.0.0.1:8000/api/appointments/patient/list');
 });
 </script>

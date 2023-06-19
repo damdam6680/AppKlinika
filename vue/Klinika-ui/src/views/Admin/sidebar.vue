@@ -4,8 +4,9 @@
 
 
 
-    initFlowbite()
+
     onMounted(() => {
+    initFlowbite();
     const logoutButton = document.getElementById('logoutButton');
     logoutButton.addEventListener('click', () => {
         localStorage.removeItem('token');
