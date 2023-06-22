@@ -78,7 +78,7 @@ onMounted(() => {
 
                            </div>
                            <h1 class="text-gray-900 font-bold text-xl leading-8 my-1">{{user_name}}</h1>
-                           <a href="/apoitment">
+                           <a href="/patients/appoitment">
                             <button type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium my-8 mb-10 rounded-lg text-sm px-5 py-2.5 mr-2 w-full dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                               Make Appointment
                             </button>

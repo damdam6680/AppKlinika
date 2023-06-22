@@ -26,6 +26,7 @@ use App\Http\Controllers\User;
 
 
 Route::middleware('auth:sanctum')->group(function(){
+    Route::get('dentists/me/', [DentistController::class, 'showMe']);
 
     Route::get('patients', [PatientController::class, 'index']);
     Route::get('patients/me', [PatientController::class, 'showMe']);
@@ -36,14 +37,20 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::patch('patients/{id}', [PatientController::class, 'update']);
     Route::delete('patients/{id}', [PatientController::class, 'destroy']);
 
+
+
+    Route::put('dentists/me', [DentistController::class, 'updateMe']);
+    Route::patch('dentists/me', [DentistController::class, 'updateMe']);
+
     Route::put('dentists/{id}', [DentistController::class, 'update']);
+    Route::patch('dentists/{id}', [DentistController::class, 'update']);
     Route::get('dentists/{id}', [DentistController::class, 'show']);
     Route::put('dentists/update', [DentistController::class, 'updateDentist']);
     Route::get('dentists', [DentistController::class, 'index']);
 
 
     Route::get('/appointments/calendar', [AppointmentController::class, 'calendar']);
-    Route::get('/appointments/doctor', [AppointmentController::class, 'AppotemtsForDoctor']);
+    Route::get('/appointments/doctor', [AppointmentController::class, 'appointmentForDoctor']);
     Route::get('/appointments/patient', [AppointmentController::class, 'AppotemtsForPacient']);
     Route::get('/appointments/patient/list', [AppointmentController::class, 'AppotemtsForPacientList']);
     Route::patch('/appointments/{id}', [AppointmentController::class, 'update']);
@@ -65,7 +72,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
 
     Route::post('treatments', [TreatmentController::class, 'store']);
-    Route::get('treatments/{id}', [TreatmentController::class, 'store']);
+    Route::get('treatments/{id}', [TreatmentController::class, 'show']);
     Route::delete('treatments/{id}', [TreatmentController::class, 'destroy']);
     Route::patch('/treatments/{id}', [TreatmentController::class, 'update']);
     Route::put('/treatments/{id}', [TreatmentController::class, 'update']);

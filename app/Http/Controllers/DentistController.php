@@ -37,7 +37,25 @@ class DentistController extends Controller
         ];
         return response()->json($response);
     }
+    public function showMe()
+    {
+        $user = Auth::user();
 
+        $dentist = Dentist::with('user')->where('user_id', $user->id)->firstOrFail();
+
+        return response()->json($dentist);
+    }
+
+    public function updateMe(UpdateDentistRequest $request)
+    {
+        $user = Auth::user();
+        $dentist = Dentist::with('user')->where('user_id', $user->id)->firstOrFail();
+        $dentist -> update($request->all());
+
+        $dentist->save();
+
+        return response()->json($dentist);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -94,6 +112,8 @@ class DentistController extends Controller
 
         return response()->json($dentist);
     }
+
+
     /**
      * Remove the specified resource from storage.
      */

@@ -57,8 +57,8 @@ const login = () => {
     <div class="grid place-items-center mx-2 my-20 sm:my-auto">
         <div class="flex">
             <span class="text-center font-bold my-20 mx-auto">
-                <a href="https://egoistdeveloper.github.io/twcss-to-sass-playground/" target="_blank" class="text-blue-600">
-                    Convetert to SASS
+                <a href="/" target="_blank" class="text-blue-600">
+                    Go Back
                 </a>
             </span>
         </div>

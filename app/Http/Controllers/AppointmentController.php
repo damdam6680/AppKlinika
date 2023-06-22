@@ -76,7 +76,7 @@ class AppointmentController extends Controller
 
         return response()->json($appointments);
     }
-    public function AppotemtsForDoctor()
+    public function appointmentForDoctor()
     {
         $user = Auth::user();
         $dentist = Dentist::where('user_id', $user->id)->firstOrFail();

@@ -64,7 +64,7 @@
       if (response.status === 200) {
             document.getElementById('error-message').textContent = '';
         }
-      router.push('/show/tretments');
+      router.push('/show/treatments');
     } catch (error) {
       console.error(error);
       if (error.response && error.response.status !== 200) {

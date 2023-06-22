@@ -201,28 +201,26 @@ onMounted(() => {
 
 <style>
 body{
-    background-color:  #1758c2;
+    background-color:  #7889fc;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #b8bec4;
-  background-color:  #1758c2;
+  color: #000000;
+  background-color:  #7889fc;
     height: 100%;
 }
 .fw-body {
-    background-color: #1758c2;
+    background-color: #7889fc;
 
 }
 .fw-body-content{
     max-width:85%;
 }
 .fw-body-list{
-
-
-    background-color: #1758c2;
+    background-color: #7889fc;
 }
 .form-wizard-vue {
     border: 0;
@@ -383,7 +381,7 @@ body{
 
         <div v-if="currentTabIndex === 3">
             <div class="mb-6">
-                <div id="error-message" class="text-red-500"></div>
+                <div id="error-message" class="bg-red-400 rounded-lg p-2"></div>
               </div>
 
               <form class="p-10 " @submit.prevent="updateUser">

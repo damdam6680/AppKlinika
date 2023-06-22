@@ -107,7 +107,7 @@ const router = createRouter({
         component: () => import('../views/User/EditPatientsData.vue')
       },
       {
-        path: '/apoitment',
+        path: '/patients/appoitment',
         name: 'MakeAppointment',
         meta: {
             requiresUser: true // Dodajemy metadane dla ścieżki wymagającej roli admina
@@ -195,7 +195,7 @@ const router = createRouter({
         component: () => import('../views/Admin/EditPatients.vue')
       },
       {
-        path: '/show/tretments',
+        path: '/show/treatments',
         name: 'ShowTretments',
         meta: {
             requiresAdmin: true // Dodajemy metadane dla ścieżki wymagającej roli admina
