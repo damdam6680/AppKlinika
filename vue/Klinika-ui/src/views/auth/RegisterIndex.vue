@@ -49,7 +49,7 @@ const register = async () => {
 
         <form class="mt-10" @submit.prevent="register">
           <!-- Email Input -->
-          <input v-model="name1" id="name1" type="text" name="name1" placeholder="name1 " autocomplete="name1"
+          <input v-model="name1" id="name1" type="text" name="name1" placeholder="name " autocomplete="name1"
             class="block w-full py-3 px-1 mt-2 text-gray-800 appearance-none border-b-2 border-gray-100 focus:text-gray-500 focus:outline-none focus:border-gray-200"
             required />
 

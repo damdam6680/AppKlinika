@@ -17,7 +17,7 @@ export default {
   },
 
   mounted() {
-    this.fetchAppointments('http://127.0.0.1:8000/api/appointments/appointments/doctor');
+    this.fetchAppointments('http://127.0.0.1:8000/api/appointments/doctor');
   },
 
   methods: {
@@ -30,7 +30,7 @@ export default {
         },
       })
       .then((response) => {
-        console.log(response.data); // Wyświetlenie danych w konsoli
+        console.log(response.data);
 
         if (response.data && response.data.data && Array.isArray(response.data.data)) {
           this.appointments = response.data.data;
@@ -51,7 +51,7 @@ export default {
     acceptAppointment(appointment) {
       const token = localStorage.getItem('token');
 
-      axios.patch(`http://127.0.0.1:8000/api/appointments/${appointment.id}`, { isAccepted: 1 }, {
+      axios.patch(`http://127.0.0.1:8000/api/appointments/${appointment.id}`, { is_accepted: 1 }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -59,8 +59,8 @@ export default {
       .then((response) => {
         console.log("Appointment accepted:", response.data);
 
-        // Zaktualizowanie wartości isAccepted na 1 w lokalnej kopii danych
-        appointment.isAccepted = 1;
+
+        appointment.is_accepted = 1;
       })
       .catch((error) => {
         console.error("Failed to accept appointment:", error);
@@ -122,10 +122,10 @@ export default {
                 {{ appointment.visit_end }}
               </td>
               <td class="px-6 py-4">
-                {{ appointment.Accepted }}
+                {{ appointment.is_accepted }}
               </td>
               <td class="px-6 py-4">
-                <button v-if="!appointment.Accepted" @click="acceptAppointment(appointment)" class="px-3 py-2 text-xs font-medium leading-4 text-white bg-green-600 hover:bg-green-700 rounded-lg">Akcept</button>
+                <button v-if="!appointment.is_accepted" @click="acceptAppointment(appointment)" class="px-3 py-2 text-xs font-medium leading-4 text-white bg-green-600 hover:bg-green-700 rounded-lg">Akcept</button>
                 <span v-else class="text-green-600">Accepted</span>
               </td>
             </tr>

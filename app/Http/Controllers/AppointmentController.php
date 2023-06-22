@@ -213,7 +213,7 @@ class AppointmentController extends Controller
         $user = Appointment::findOrFail($id);
 
         // Zaktualizuj dane użytkownika
-        $user->isAccepted = $request->input('isAccepted');
+        $user->is_accepted = $request->input('is_accepted');
 
         $user->save();
 
@@ -229,7 +229,7 @@ class AppointmentController extends Controller
         $appointment = Appointment::findOrFail($id);
 
         // Aktualizuj wartość pola isAccepted na podstawie żądania
-        $appointment->isAccepted = $request->input('isAccepted');
+        $appointment->is_accepted = $request->input('is_accepted');
 
         $appointment->save();
 

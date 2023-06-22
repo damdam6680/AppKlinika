@@ -99,7 +99,7 @@ const router = createRouter({
         path: '/edit/patients/data',
         name: 'EditPatientsData',
         meta: {
-            requiresDentist: true // Dodajemy metadane dla ścieżki wymagającej roli admina
+            requiresUser: true // Dodajemy metadane dla ścieżki wymagającej roli admina
           },
         // route level code-splitting
         // this generates a separate chunk (About.[hash].js) for this route

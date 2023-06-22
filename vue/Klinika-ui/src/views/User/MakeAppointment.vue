@@ -82,6 +82,7 @@ export default {
       if (error.response && error.response.status !== 200) {
       const errorMessage = error.response.data.message;
       // Wyświetl komunikat błędu nad formularzem
+
       document.getElementById('error-message').textContent = errorMessage;
     }
     });
@@ -234,9 +235,11 @@ body{
     border: 0;
 
 }
-#body{
-    color: black;
+.fw-step-title{
+    color: rgb(0, 0, 0);
 }
+
+
 </style>
 
 <template>
@@ -381,7 +384,7 @@ body{
 
         <div v-if="currentTabIndex === 3">
             <div class="mb-6">
-                <div id="error-message" class="bg-red-400 rounded-lg p-2"></div>
+                <div id="error-message" class="text-red-400 "></div>
               </div>
 
               <form class="p-10 " @submit.prevent="updateUser">
